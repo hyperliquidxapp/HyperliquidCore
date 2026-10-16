@@ -51,7 +51,7 @@ private func authorizedRecoverySession() async throws -> (TradingSession, Sessio
     let r = try #require(second["signature"]["r"].string)
     let s = try #require(second["signature"]["s"].string)
     let v = try #require(second["signature"]["v"].int64)
-    let signature = try WalletSignature(hex: r + s.dropFirst(2) + String(v, radix: 16))
+    let signature = try WalletSignature(hex: r + String(s.dropFirst(2)) + String(v, radix: 16))
     #expect(try EthereumSigning.recover(signature: signature, digest: digest) == approval.agentAddress)
     await #expect(throws: (any Error).self) {
         try await restored.signedRequest(action: .map([("type", .string("withdraw3"))]),
