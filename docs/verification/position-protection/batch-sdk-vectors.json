@@ -1,0 +1,778 @@
+{
+  "source_sha256": "938ec0a1f9611874b423ca946696e19a71d32d14709f521ea5d526f4398c0b85",
+  "owner": "0x14791697260e4c9a71f18484c9f997b308e59325",
+  "vectors": [
+    {
+      "short": false,
+      "isMarket": false,
+      "mode": "position",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": false,
+            "p": "2000",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": false,
+                "triggerPx": "2100",
+                "tpsl": "tp"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          },
+          {
+            "a": 1,
+            "b": false,
+            "p": "2000",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": false,
+                "triggerPx": "1900",
+                "tpsl": "sl"
+              }
+            },
+            "c": "0x22222222222222222222222222222222"
+          }
+        ],
+        "grouping": "positionTpsl"
+      },
+      "hash": "0xbf62315d5f8a031351027655b5748a189011055a82e21382333516ef7c597deb",
+      "mainnet": {
+        "signature": {
+          "r": "0xb346259d89252ca41d15d0681156c49a1a1825744e42c7019a3a7aeb4724843d",
+          "s": "0x7a36b23298253926649898865905828281aac764fe0303c91aeaace7dba2475d",
+          "v": 28
+        },
+        "digest": "0x9f6d273f21490989670dd68b8e879882af2cc1d1c3a46618157aa038f11e78f3"
+      },
+      "testnet": {
+        "signature": {
+          "r": "0x3d1e2b1cf18892b99706a804c33e838fa14a14bf8a43c1f06ceac828113980ec",
+          "s": "0x784390c3abb823228a104bee32e90e09a077b0b018ee14f65cd1956f889edd2e",
+          "v": 28
+        },
+        "digest": "0x513404d061f71be8976a9d5be701acd42394d614fc4bf6dbf231c2817ef865b4"
+      }
+    },
+    {
+      "short": false,
+      "isMarket": false,
+      "mode": "bracket",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": true,
+            "p": "2000",
+            "s": "1.2345",
+            "r": false,
+            "t": {
+              "limit": {
+                "tif": "Gtc"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          },
+          {
+            "a": 1,
+            "b": false,
+            "p": "2000",
+            "s": "1.2345",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": false,
+                "triggerPx": "2100",
+                "tpsl": "tp"
+              }
+            },
+            "c": "0x22222222222222222222222222222222"
+          },
+          {
+            "a": 1,
+            "b": false,
+            "p": "2000",
+            "s": "1.2345",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": false,
+                "triggerPx": "1900",
+                "tpsl": "sl"
+              }
+            },
+            "c": "0x33333333333333333333333333333333"
+          }
+        ],
+        "grouping": "normalTpsl"
+      },
+      "hash": "0x6050b0f18b465c0d8ba4c216cedbe88a424fa8a9546a4c3c2b700ee6b1b08522",
+      "mainnet": {
+        "signature": {
+          "r": "0xe35049f0b0c7131f23a1936d5bbd1545da8c82bb81ac61d1a668a1c63226f564",
+          "s": "0x38858aeaf74080ff65ddb7a150552455ddc4152267b651e9cc3d2ee574739934",
+          "v": 28
+        },
+        "digest": "0xc0314680eedef57805606b3d8a3b621138307eea41990836e92f9a5b68dabf1f"
+      },
+      "testnet": {
+        "signature": {
+          "r": "0xe3d81f5d1b77613ac7c85f03198991adeb097b076c9331d1bc7fec5ff1b0889e",
+          "s": "0x4de68a426d7f7086e9aed272ec9b31f2cad1eb91352ae05fdd8e1c4f3bde6b52",
+          "v": 27
+        },
+        "digest": "0x9536e291f073a472e63f554b26348bf8b197760c22bc142795ee6e10905f464b"
+      }
+    },
+    {
+      "short": false,
+      "isMarket": false,
+      "mode": "modify",
+      "action": {
+        "type": "batchModify",
+        "modifies": [
+          {
+            "oid": 70,
+            "order": {
+              "a": 1,
+              "b": false,
+              "p": "2000",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": false,
+                  "triggerPx": "2100",
+                  "tpsl": "tp"
+                }
+              },
+              "c": "0x11111111111111111111111111111111"
+            }
+          },
+          {
+            "oid": 71,
+            "order": {
+              "a": 1,
+              "b": false,
+              "p": "2000",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": false,
+                  "triggerPx": "1900",
+                  "tpsl": "sl"
+                }
+              },
+              "c": "0x22222222222222222222222222222222"
+            }
+          }
+        ],
+        "a": true
+      },
+      "hash": "0x3b091ec4d648b5092dcec3094bb4a40e2d228ab6a62c1e7dab5a22fafd87acd2",
+      "mainnet": {
+        "signature": {
+          "r": "0x300d2a3c81120f558e490658c7315eed5aca61f42bcec7c379787eca57b10f8b",
+          "s": "0x460ba7b3eeb6d18db5b1746067f1a6372d40140b29e7402c241b4a8fa7a5e4d4",
+          "v": 28
+        },
+        "digest": "0x474dc12fffe0c9e0229272bc75dfc481bfcc943021340f3c4f858c7a52e9e1b4"
+      },
+      "testnet": {
+        "signature": {
+          "r": "0xf0709ed271d0569017ae754d8753ed15ac1abc5c5cec8a6442139ae1f84e79a2",
+          "s": "0x7318313be44499fb8310533fd6ddb65f94130b99af2dcf0f7424dca53bf581d2",
+          "v": 27
+        },
+        "digest": "0x9c5f9b5d4f89b8bd7d0ea8f85704ec61d620cd0768d9839fb189244866528ee3"
+      }
+    },
+    {
+      "short": false,
+      "isMarket": true,
+      "mode": "position",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": false,
+            "p": "1890",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": true,
+                "triggerPx": "2100",
+                "tpsl": "tp"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          },
+          {
+            "a": 1,
+            "b": false,
+            "p": "1710",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": true,
+                "triggerPx": "1900",
+                "tpsl": "sl"
+              }
+            },
+            "c": "0x22222222222222222222222222222222"
+          }
+        ],
+        "grouping": "positionTpsl"
+      },
+      "hash": "0xb8062eb64efc603ec119362269d293c21fdf6f2a9fd106db998527716fbda86d",
+      "mainnet": {
+        "signature": {
+          "r": "0x59859e637f5e50148b2e18e16ead2a342a5482a75604ba11d69821b0958dc906",
+          "s": "0x105b707e4676cbc8b777ec71f6ebe3bfb3202aaa5d050db3eae61547ea5bf28e",
+          "v": 28
+        },
+        "digest": "0x025a709b4cfc283da12871c2e289460259e999528ad79797a6845ed15f594692"
+      },
+      "testnet": {
+        "signature": {
+          "r": "0x4efaa2a3f9505820c986fb33fa2b4e850ffd80b3065067865214fb959d2eba3d",
+          "s": "0x3c73c492e3e50b0ab58dea77d8d6a456efe89ccc3fd85731095aae0bf0e5e36e",
+          "v": 27
+        },
+        "digest": "0x32534253648bf662b81198c13c55455574dbd59a9f8fb69ab6e7de8699663bff"
+      }
+    },
+    {
+      "short": false,
+      "isMarket": true,
+      "mode": "bracket",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": true,
+            "p": "2000",
+            "s": "1.2345",
+            "r": false,
+            "t": {
+              "limit": {
+                "tif": "Gtc"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          },
+          {
+            "a": 1,
+            "b": false,
+            "p": "1890",
+            "s": "1.2345",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": true,
+                "triggerPx": "2100",
+                "tpsl": "tp"
+              }
+            },
+            "c": "0x22222222222222222222222222222222"
+          },
+          {
+            "a": 1,
+            "b": false,
+            "p": "1710",
+            "s": "1.2345",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": true,
+                "triggerPx": "1900",
+                "tpsl": "sl"
+              }
+            },
+            "c": "0x33333333333333333333333333333333"
+          }
+        ],
+        "grouping": "normalTpsl"
+      },
+      "hash": "0x739002ca4da5a25986d5526334268ce2784ebe0cf2d42fa35c04947c8ffaf111",
+      "mainnet": {
+        "signature": {
+          "r": "0x76c9c321ae0534e20d080bf7731df3984df012f740bfcf0e93208df3001c1d5b",
+          "s": "0xcf12952a7d0822f2d2d9ec77a7b59d434bc2fea2c6aee0441836ae7a998178e",
+          "v": 28
+        },
+        "digest": "0x079f8407072c1c8796cc0a0d9e908c3ab08f6819a99f71a7cf3666a469846f4b"
+      },
+      "testnet": {
+        "signature": {
+          "r": "0xdbe7db51a5720c0314a75deeba647a1272440453c75e952fd88890e4e63543c7",
+          "s": "0x5cb21771a4c849bb81b4cc1e2c798fe291645f242521269b3ed1e87e574dfce4",
+          "v": 28
+        },
+        "digest": "0xf19e19b659676f08bb237b33c9f4009d19ed7697b46106d0141499d5687432cc"
+      }
+    },
+    {
+      "short": false,
+      "isMarket": true,
+      "mode": "modify",
+      "action": {
+        "type": "batchModify",
+        "modifies": [
+          {
+            "oid": 70,
+            "order": {
+              "a": 1,
+              "b": false,
+              "p": "1890",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": true,
+                  "triggerPx": "2100",
+                  "tpsl": "tp"
+                }
+              },
+              "c": "0x11111111111111111111111111111111"
+            }
+          },
+          {
+            "oid": 71,
+            "order": {
+              "a": 1,
+              "b": false,
+              "p": "1710",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": true,
+                  "triggerPx": "1900",
+                  "tpsl": "sl"
+                }
+              },
+              "c": "0x22222222222222222222222222222222"
+            }
+          }
+        ],
+        "a": true
+      },
+      "hash": "0x7e90228afe8c5cbad19917f8d6fa9e86961829ad6602de71804b3be8b51ba633",
+      "mainnet": {
+        "signature": {
+          "r": "0x980820decdcf41b280c8940b82293470de8bc7241568ff0d4488533554c18b7a",
+          "s": "0x2e685980f099e73e995d8b3fbd9d913e09ca5e0cdea7ba8a50751105bf1eecca",
+          "v": 27
+        },
+        "digest": "0xae4c5c56090c10570a59a12643195e6bbfcf94df467c579faec68de48dcef832"
+      },
+      "testnet": {
+        "signature": {
+          "r": "0x5d7f1b27a20f80269a8f8b79385f29d6c01e548c1cd35d4f3c4f93be5e6e0b99",
+          "s": "0x12c275147fff3a593c98a534214b90b695ea38605bb1ac9d5d8d9b17852250de",
+          "v": 28
+        },
+        "digest": "0x397ed62c4522b5d0b99806119f49b7cc96afd7aa71115c517096c4d4347f99a9"
+      }
+    },
+    {
+      "short": true,
+      "isMarket": false,
+      "mode": "position",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": true,
+            "p": "2000",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": false,
+                "triggerPx": "1900",
+                "tpsl": "tp"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          },
+          {
+            "a": 1,
+            "b": true,
+            "p": "2000",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": false,
+                "triggerPx": "2100",
+                "tpsl": "sl"
+              }
+            },
+            "c": "0x22222222222222222222222222222222"
+          }
+        ],
+        "grouping": "positionTpsl"
+      },
+      "hash": "0x0a2513dc0dd2e9de6abfb1778c0bdc0a14af7b750cb9402adfba7146a786dfe4",
+      "mainnet": {
+        "signature": {
+          "r": "0x47b407b6d02d18bac36f9c6352616a1093c14e7c0967b4212ceb8c563791a281",
+          "s": "0x7f94fc9e25c167af91c8363130fb94ec3d074ab89cad35281f96f52ecffa3407",
+          "v": 27
+        },
+        "digest": "0x69a37dc557c827d1e8a491dc81f4c39a2f534dbae98b9f99f8ecaa5c3188d5c4"
+      },
+      "testnet": {
+        "signature": {
+          "r": "0x15876763d90f27199d96819f419414099731735c2a65a80ba7195d6d7a1646cc",
+          "s": "0x6bd080bc3e0a68393ca6fb09c5d26c79398cd2c4a8f3ebe6005ec5d93cfad19",
+          "v": 27
+        },
+        "digest": "0x433da1df4513840259c6edaee9ae6e3adb3cde5ac0a4961f5d7c3d4848ffae40"
+      }
+    },
+    {
+      "short": true,
+      "isMarket": false,
+      "mode": "bracket",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": false,
+            "p": "2000",
+            "s": "1.2345",
+            "r": false,
+            "t": {
+              "limit": {
+                "tif": "Gtc"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          },
+          {
+            "a": 1,
+            "b": true,
+            "p": "2000",
+            "s": "1.2345",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": false,
+                "triggerPx": "1900",
+                "tpsl": "tp"
+              }
+            },
+            "c": "0x22222222222222222222222222222222"
+          },
+          {
+            "a": 1,
+            "b": true,
+            "p": "2000",
+            "s": "1.2345",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": false,
+                "triggerPx": "2100",
+                "tpsl": "sl"
+              }
+            },
+            "c": "0x33333333333333333333333333333333"
+          }
+        ],
+        "grouping": "normalTpsl"
+      },
+      "hash": "0x09caf6b5dbfa8ccd8e9b25bafc614fa510d329e704d721683da68497e34e0aae",
+      "mainnet": {
+        "signature": {
+          "r": "0xf42c686fd5a1e3ad3a7dda5b8d273a12f047812005ca28633be942e6e4ad7f9e",
+          "s": "0x617b68743efd1ed1820d8198f5f64a0035eb56426e697fe41ba6974ca53fe981",
+          "v": 28
+        },
+        "digest": "0xe664955b2cee9507431a693ba7c248091754ed45424809878fe101ed6e1944c7"
+      },
+      "testnet": {
+        "signature": {
+          "r": "0xfe798b180da169c6b4fc1184184b9005895ecb19cf6b80a734d3cefaeb96f804",
+          "s": "0x54ef61f0116811dc60650d5ecb0caea2e24cf4753b610129256b386e529af8cc",
+          "v": 28
+        },
+        "digest": "0x4d278739b8e6253414caa4a0fac6d6834f6c06d1606061f5d3c1884af2605777"
+      }
+    },
+    {
+      "short": true,
+      "isMarket": false,
+      "mode": "modify",
+      "action": {
+        "type": "batchModify",
+        "modifies": [
+          {
+            "oid": 70,
+            "order": {
+              "a": 1,
+              "b": true,
+              "p": "2000",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": false,
+                  "triggerPx": "1900",
+                  "tpsl": "tp"
+                }
+              },
+              "c": "0x11111111111111111111111111111111"
+            }
+          },
+          {
+            "oid": 71,
+            "order": {
+              "a": 1,
+              "b": true,
+              "p": "2000",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": false,
+                  "triggerPx": "2100",
+                  "tpsl": "sl"
+                }
+              },
+              "c": "0x22222222222222222222222222222222"
+            }
+          }
+        ],
+        "a": true
+      },
+      "hash": "0x04a15a7e6612c8b04c19d5e527a8924ba58b683299408a6c5785529585433880",
+      "mainnet": {
+        "signature": {
+          "r": "0xdba2da6e2029449ee6e2510a9d518fbe85ba8ca635d910676229665c0f74ddb2",
+          "s": "0x5f5c209866388428037f42ac68c36d4a9d5c80aff62546198a2f14a10eecbd71",
+          "v": 27
+        },
+        "digest": "0x84d638a31b8991d3ae3c0fd8279731f99d5fe76320ce5acfccf529cf1b01d764"
+      },
+      "testnet": {
+        "signature": {
+          "r": "0xc109ab53145ee2e7e48f84ba933832eafd8a3194b81efd005a497bfc51e982fe",
+          "s": "0x65534b684c37e5617af13e5151ab708687c4ec4d38ccbcbd72c915742913a220",
+          "v": 28
+        },
+        "digest": "0xfdcd0fddc92a14e5be5013d5425e023b4d95c69475505d9f07b58c5cfd748944"
+      }
+    },
+    {
+      "short": true,
+      "isMarket": true,
+      "mode": "position",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": true,
+            "p": "2090",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": true,
+                "triggerPx": "1900",
+                "tpsl": "tp"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          },
+          {
+            "a": 1,
+            "b": true,
+            "p": "2310",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": true,
+                "triggerPx": "2100",
+                "tpsl": "sl"
+              }
+            },
+            "c": "0x22222222222222222222222222222222"
+          }
+        ],
+        "grouping": "positionTpsl"
+      },
+      "hash": "0x39425ccc2632c0e676d0d12bf7365328dd0b05efa5d3effcc364b93a3cfbe2cd",
+      "mainnet": {
+        "signature": {
+          "r": "0x343d8c110868670f4a78d92f3e1adcadc59143923385fa6dd9f08ffd1fae851f",
+          "s": "0x609736d9abd6c6c67f4e5251edf11377257d96011c8088afaa94d2ec0bd73ca0",
+          "v": 28
+        },
+        "digest": "0xcc5cbab7bd20f8acdfcdc42d6768f71b37ee3e932895e4fcf3eb40e7f501eb41"
+      },
+      "testnet": {
+        "signature": {
+          "r": "0x442a045ef58ede408694a9d2b1104363c54074ac77646205ad73faa29287cd8b",
+          "s": "0x21afac02c9a97bb9498ee20319e4acab6844f4a712bb46496ee28d7698c5b6d0",
+          "v": 28
+        },
+        "digest": "0x7006c266bdd9d3797a726cac199ff6a423779c260d37e2abec31333a181bbcab"
+      }
+    },
+    {
+      "short": true,
+      "isMarket": true,
+      "mode": "bracket",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": false,
+            "p": "2000",
+            "s": "1.2345",
+            "r": false,
+            "t": {
+              "limit": {
+                "tif": "Gtc"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          },
+          {
+            "a": 1,
+            "b": true,
+            "p": "2090",
+            "s": "1.2345",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": true,
+                "triggerPx": "1900",
+                "tpsl": "tp"
+              }
+            },
+            "c": "0x22222222222222222222222222222222"
+          },
+          {
+            "a": 1,
+            "b": true,
+            "p": "2310",
+            "s": "1.2345",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": true,
+                "triggerPx": "2100",
+                "tpsl": "sl"
+              }
+            },
+            "c": "0x33333333333333333333333333333333"
+          }
+        ],
+        "grouping": "normalTpsl"
+      },
+      "hash": "0x9111b542355131e0453afb2962f04bc1073528a09493111a7a3a9bac7f7f2653",
+      "mainnet": {
+        "signature": {
+          "r": "0x74e3a7c8ae4f4ee70d514f640eb3a23239f9cb7b05aa40daf4b50d49a3892e04",
+          "s": "0x206ccddbbbbc098ea598907312073567edf42ce3c83c0a63d2a41a7afc0f1587",
+          "v": 28
+        },
+        "digest": "0x5e0386b43b2f2e4a212ca45cb2ac1a7a7383d8586bf132fb1319beb55dcebdb2"
+      },
+      "testnet": {
+        "signature": {
+          "r": "0x83ebfbc6746643c7af940dcecce8e947697efc4bedd951c13291249c5bee7be0",
+          "s": "0x5d74c4d851e22f7f3af3ab486f7d5fc7e8f6e11a20f5c089d3155e3054b4ba6d",
+          "v": 28
+        },
+        "digest": "0xfc7fc8e8dbde5208e82cfd90850d5eeea3d6e1b43f1d5708aa30199ba36c55bb"
+      }
+    },
+    {
+      "short": true,
+      "isMarket": true,
+      "mode": "modify",
+      "action": {
+        "type": "batchModify",
+        "modifies": [
+          {
+            "oid": 70,
+            "order": {
+              "a": 1,
+              "b": true,
+              "p": "2090",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": true,
+                  "triggerPx": "1900",
+                  "tpsl": "tp"
+                }
+              },
+              "c": "0x11111111111111111111111111111111"
+            }
+          },
+          {
+            "oid": 71,
+            "order": {
+              "a": 1,
+              "b": true,
+              "p": "2310",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": true,
+                  "triggerPx": "2100",
+                  "tpsl": "sl"
+                }
+              },
+              "c": "0x22222222222222222222222222222222"
+            }
+          }
+        ],
+        "a": true
+      },
+      "hash": "0xdc4dec0a832178685c8acb9386a4786ae38779caa063e1601ba7e3890024c39b",
+      "mainnet": {
+        "signature": {
+          "r": "0x2e0bd82d8a8e6a21312620a4b96faf9e8aaca647296659e0ec12145357a63fc3",
+          "s": "0x5cd3a55440758c729999a27f5cad6770e8bcea41559c83d9d17337a2bbcf9c45",
+          "v": 27
+        },
+        "digest": "0x912e6797fa4fc12c3e7a3431402f2b00dd8ba04edb49c891badd2068788e8e2f"
+      },
+      "testnet": {
+        "signature": {
+          "r": "0x1e272a53c70e6a790ba5ae96c9a3ffe923021bece119460fa43b4a5a1f7a28a2",
+          "s": "0x3fc4300f3d5a516b54ca96bd29da30ac4c9ffd9048f8feb42e73e52d8728cda4",
+          "v": 27
+        },
+        "digest": "0x56961494f1bd41e1c304720be47d44172ead723878bc7ce4d69460090a5efb03"
+      }
+    }
+  ]
+}

@@ -1,0 +1,333 @@
+{
+  "source_sha256": "938ec0a1f9611874b423ca946696e19a71d32d14709f521ea5d526f4398c0b85",
+  "vectors": [
+    {
+      "buy": false,
+      "kind": "Stop",
+      "isMarket": false,
+      "trigger": "1900",
+      "action": {
+        "type": "batchModify",
+        "modifies": [
+          {
+            "oid": 123,
+            "order": {
+              "a": 1,
+              "b": false,
+              "p": "2000",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": false,
+                  "triggerPx": "1900",
+                  "tpsl": "sl"
+                }
+              },
+              "c": "0x11111111111111111111111111111111"
+            }
+          }
+        ],
+        "a": true
+      },
+      "hash": "0xe5feca4ec0fa308c9f4743c71ba465a13d291d1cb6b2990ac71c6865a00611c7",
+      "mainnet": {
+        "r": "0xf69543448ae4d0dfb654456dfb75c3e4c8306b8b3046ef1ea34a11109e15e316",
+        "s": "0x599f5ee16cd0b8d8cb619cfbbb525923d1c517bc45ffd1205e9b25ae84771ebf",
+        "v": 27
+      },
+      "testnet": {
+        "r": "0xec41fb862fe9fb4451645a0d6eee9d9da87381158fad4b0878ef3e826b44aecf",
+        "s": "0x6170230c1a5b8084ca8c41e3441634d392d50c7cedac4d7ca20b0a70469299de",
+        "v": 28
+      }
+    },
+    {
+      "buy": false,
+      "kind": "Stop",
+      "isMarket": true,
+      "trigger": "1900",
+      "action": {
+        "type": "batchModify",
+        "modifies": [
+          {
+            "oid": 123,
+            "order": {
+              "a": 1,
+              "b": false,
+              "p": "1710",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": true,
+                  "triggerPx": "1900",
+                  "tpsl": "sl"
+                }
+              },
+              "c": "0x11111111111111111111111111111111"
+            }
+          }
+        ],
+        "a": true
+      },
+      "hash": "0x136f0bb416b3f57b607ab56a81199bb2af7d108d31ac03419527828fbaec7572",
+      "mainnet": {
+        "r": "0xb837e2034e4b182ee08baf4c033c6abc4e74372e2c0503886023960878e8cd5b",
+        "s": "0x27c0a72068c2dd8593b1cf6782f74a48648cc0efb8e64abee8f4290d55ddfc20",
+        "v": 28
+      },
+      "testnet": {
+        "r": "0xb07786d14bb0c4b0a312c0733999544bd8dcc9461b5b01a7b479f7cbf4c180dc",
+        "s": "0x12eec420633e6c2d2f9e9391749bda555c5e0d5ce559d076309312b4b04dbbc3",
+        "v": 28
+      }
+    },
+    {
+      "buy": false,
+      "kind": "TP",
+      "isMarket": false,
+      "trigger": "2100",
+      "action": {
+        "type": "batchModify",
+        "modifies": [
+          {
+            "oid": 123,
+            "order": {
+              "a": 1,
+              "b": false,
+              "p": "2000",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": false,
+                  "triggerPx": "2100",
+                  "tpsl": "tp"
+                }
+              },
+              "c": "0x11111111111111111111111111111111"
+            }
+          }
+        ],
+        "a": true
+      },
+      "hash": "0x5fa15426f42fac99790acce2fe66f0079e13b207022f664dcf36e914797abf5d",
+      "mainnet": {
+        "r": "0x841355efb9d0ca3e15ed79f77d3910c142ce237839b06b34728ff5f78e999099",
+        "s": "0x3ed6cf2eaf9acd67561ae1016c44f8153396c30e34a43eb64583a69bd1c02ba3",
+        "v": 27
+      },
+      "testnet": {
+        "r": "0xf6149197c80e9168c014804442e109ade6a58a2003a705bfbdcddff6b37ffeca",
+        "s": "0x33577d5064ab819d1ac7fd9bac950120ec96b6cffed952555a9a87678fb20ca5",
+        "v": 27
+      }
+    },
+    {
+      "buy": false,
+      "kind": "TP",
+      "isMarket": true,
+      "trigger": "2100",
+      "action": {
+        "type": "batchModify",
+        "modifies": [
+          {
+            "oid": 123,
+            "order": {
+              "a": 1,
+              "b": false,
+              "p": "1890",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": true,
+                  "triggerPx": "2100",
+                  "tpsl": "tp"
+                }
+              },
+              "c": "0x11111111111111111111111111111111"
+            }
+          }
+        ],
+        "a": true
+      },
+      "hash": "0xfe3a57a8dd1ab50e08a731912721bd08cd2eb820b16efc2a36984f3602a61f5b",
+      "mainnet": {
+        "r": "0x80c072b2a6c74e343b3a2f0788c0812ef7d0bb231f5c6c96d1de87b8e4a60696",
+        "s": "0x2503a502a0d0d5a60dfbfc29244df587b201029e23b00aa248cae63ca2e057e7",
+        "v": 27
+      },
+      "testnet": {
+        "r": "0xd76b07012e73dabe0f769ccfa2c050498f431aa825342c141da85f77628df9c9",
+        "s": "0x64b6532128669769fc0e374a160e6ea07ef8787e16fbeb5e09b484d55fa114d4",
+        "v": 28
+      }
+    },
+    {
+      "buy": true,
+      "kind": "Stop",
+      "isMarket": false,
+      "trigger": "2100",
+      "action": {
+        "type": "batchModify",
+        "modifies": [
+          {
+            "oid": 123,
+            "order": {
+              "a": 1,
+              "b": true,
+              "p": "2000",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": false,
+                  "triggerPx": "2100",
+                  "tpsl": "sl"
+                }
+              },
+              "c": "0x11111111111111111111111111111111"
+            }
+          }
+        ],
+        "a": true
+      },
+      "hash": "0x63aeabccd7978162251304194062f98a7c804660ec326bf1fcbb7635f145fd4d",
+      "mainnet": {
+        "r": "0xe2cac5451658c94ecbc36c8c89f48f3510014e740afa29cbd49d2b2c88d23ab1",
+        "s": "0x2e603bc397da4d8f43b1a3125547d0eb9b74dd002c9002882af2ee07383f981d",
+        "v": 27
+      },
+      "testnet": {
+        "r": "0xc02aff0d3bc5e3f46846dc53b400b68f20014e77f07bade50cff815a668f8c51",
+        "s": "0x77af60c4907decdc2e5be19c8235b243090355786ddb0cb6cfff4ba978976dec",
+        "v": 28
+      }
+    },
+    {
+      "buy": true,
+      "kind": "Stop",
+      "isMarket": true,
+      "trigger": "2100",
+      "action": {
+        "type": "batchModify",
+        "modifies": [
+          {
+            "oid": 123,
+            "order": {
+              "a": 1,
+              "b": true,
+              "p": "2310",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": true,
+                  "triggerPx": "2100",
+                  "tpsl": "sl"
+                }
+              },
+              "c": "0x11111111111111111111111111111111"
+            }
+          }
+        ],
+        "a": true
+      },
+      "hash": "0xbe9f4efd4015b7e2614e005ec9588749ae7884b1ba3d8df98b4e70090052be35",
+      "mainnet": {
+        "r": "0x717a36d597d27cdf294f0812d111f7dac0d61845c6523399fa5db008d5b0b46b",
+        "s": "0x20c8f146923c450e6046297c3e185c4a1635470e5435f31b78bae65bd98a3b62",
+        "v": 28
+      },
+      "testnet": {
+        "r": "0xc6b80ae214785e09f21690bf05cc2e52ea74443c11c2c0ccd7afed4ed7c07f59",
+        "s": "0x3776946fd547a4b9d2af13358db7d2090165e14cb83f6459e51d95c841319f04",
+        "v": 28
+      }
+    },
+    {
+      "buy": true,
+      "kind": "TP",
+      "isMarket": false,
+      "trigger": "1900",
+      "action": {
+        "type": "batchModify",
+        "modifies": [
+          {
+            "oid": 123,
+            "order": {
+              "a": 1,
+              "b": true,
+              "p": "2000",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": false,
+                  "triggerPx": "1900",
+                  "tpsl": "tp"
+                }
+              },
+              "c": "0x11111111111111111111111111111111"
+            }
+          }
+        ],
+        "a": true
+      },
+      "hash": "0xe9c8ccac836491b6d80b5cc0a5af77f45cf96761f1eb07a7319690945381cf58",
+      "mainnet": {
+        "r": "0x95e166f982fb849899190e3ee41f3e191892e2d3e2a4a3e9e87a39cfa9400af6",
+        "s": "0x5ac48596823beb68bf0f74bf268e3f6c03c150c6b0204490236d28bcb1f675d7",
+        "v": 27
+      },
+      "testnet": {
+        "r": "0x2606813a7e9c135ff4670ae72986ae56b28ead0a7ecdffd5598f787642e81d0e",
+        "s": "0x44dc3395e862683592f269bbb49cd54fedf91510fadae3d268cbdaaf67538843",
+        "v": 27
+      }
+    },
+    {
+      "buy": true,
+      "kind": "TP",
+      "isMarket": true,
+      "trigger": "1900",
+      "action": {
+        "type": "batchModify",
+        "modifies": [
+          {
+            "oid": 123,
+            "order": {
+              "a": 1,
+              "b": true,
+              "p": "2090",
+              "s": "0",
+              "r": true,
+              "t": {
+                "trigger": {
+                  "isMarket": true,
+                  "triggerPx": "1900",
+                  "tpsl": "tp"
+                }
+              },
+              "c": "0x11111111111111111111111111111111"
+            }
+          }
+        ],
+        "a": true
+      },
+      "hash": "0xe1b56011b4c2566273f3cc6573f420bdd9278f156d57db1bade2151947a09bbc",
+      "mainnet": {
+        "r": "0xc584c770694f1f75bfe7341590d625bca79dde081d8b976617805b481b9185b6",
+        "s": "0x7accbb403b16d78166a978c1429779c85da84e7bcf3e1c764485398d8442dbbe",
+        "v": 27
+      },
+      "testnet": {
+        "r": "0x647a52735f91506f20267bb4fda1020fea3abdf8832e0d61b7b2d4abcba259dd",
+        "s": "0x713f6e4c3ba7da39831e9437fbef2438fe45a316e697d2d2c986b7e757c6a591",
+        "v": 27
+      }
+    }
+  ]
+}

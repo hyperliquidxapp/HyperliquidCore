@@ -1,0 +1,309 @@
+{
+  "source_sha256": "938ec0a1f9611874b423ca946696e19a71d32d14709f521ea5d526f4398c0b85",
+  "vectors": [
+    {
+      "buy": false,
+      "kind": "Stop",
+      "isMarket": false,
+      "trigger": "1900",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": false,
+            "p": "2000",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": false,
+                "triggerPx": "1900",
+                "tpsl": "sl"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          }
+        ],
+        "grouping": "positionTpsl"
+      },
+      "hash": "0xbab6acdee27a21c08f423fc4809d2e3805daf52eb040d6eb870b621b3484c689",
+      "mainnet": {
+        "r": "0x39f88676257a50cf60f4753073ac298ba10e221737f9c62d5590b82487f582b8",
+        "s": "0x563a81c1d62c88757738a3831cef1aff46ddb3517b4830443009fdd7c25bfb49",
+        "v": 27
+      },
+      "testnet": {
+        "r": "0x6e8acd2449c9d8a267693dcb59eb8a0417bb5357ea5ccb52b500658ee0fadd8a",
+        "s": "0x290ca6fe0d8418fe8a21c6b2bb127a50dc51555929d69b2aee87c2fe9fd9f0e1",
+        "v": 27
+      }
+    },
+    {
+      "buy": false,
+      "kind": "Stop",
+      "isMarket": true,
+      "trigger": "1900",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": false,
+            "p": "1710",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": true,
+                "triggerPx": "1900",
+                "tpsl": "sl"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          }
+        ],
+        "grouping": "positionTpsl"
+      },
+      "hash": "0x4e3f8cd02be9bba94fe877ade0afe12f0c9e0572b2347f2ee7ed1c2c34a981c0",
+      "mainnet": {
+        "r": "0xb2c1dca1ab27a6f8e79ddae17b9abb38b9b9be8c9987c70e7af1cebedc9ac568",
+        "s": "0x7b41fec81b8211c1658c29c7378689d02278268da34229ef6113b0fe266466ed",
+        "v": 27
+      },
+      "testnet": {
+        "r": "0x2cb281a4882085c39f5335a2263b1d80ebcb57b8145a65890dd7b10ee6ea8e6d",
+        "s": "0x3d0e5c4f40f7092fe557da825e204cde6b4038655b0a8e5235053ee1606a273a",
+        "v": 27
+      }
+    },
+    {
+      "buy": false,
+      "kind": "TP",
+      "isMarket": false,
+      "trigger": "2100",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": false,
+            "p": "2000",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": false,
+                "triggerPx": "2100",
+                "tpsl": "tp"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          }
+        ],
+        "grouping": "positionTpsl"
+      },
+      "hash": "0x4ab67f2077a56b2f5b3d325c27e789b536f7a6995008b4ccd8b6f6d1ecef26a3",
+      "mainnet": {
+        "r": "0x5edee1e579faba48bdc08e6f6415cc783957046d67b1856638a50a2f92587050",
+        "s": "0x58cc9c0d5cda26c0f6d8045806283f9fd89328cbcfd482a74594143dd5ef52f",
+        "v": 28
+      },
+      "testnet": {
+        "r": "0xf89fb57fc831bfa8243fa555d5f4eac717d4f19365ca9b737d59d3d66b895515",
+        "s": "0x53d2a34851692674a317ee4f014fa89bf47500105676ecd14efe0806ca8a13b6",
+        "v": 28
+      }
+    },
+    {
+      "buy": false,
+      "kind": "TP",
+      "isMarket": true,
+      "trigger": "2100",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": false,
+            "p": "1890",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": true,
+                "triggerPx": "2100",
+                "tpsl": "tp"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          }
+        ],
+        "grouping": "positionTpsl"
+      },
+      "hash": "0x5e139d3472f99504fff4272b7ce12ed9acb29cda4a84e8435505cbaab955d582",
+      "mainnet": {
+        "r": "0x93478c056d037160619eb04a82595ed343985a70e78fc6ae06e1d0d8b3b2c31f",
+        "s": "0x4adf607c531f1d8edd9f33d30578cb18ab7c10839898021f18d8066c3f4231c4",
+        "v": 27
+      },
+      "testnet": {
+        "r": "0xd56f23385bd11b3f224b89d6baafa4ac25db2881f9d2f9c606a4048d8141411f",
+        "s": "0x220b894698de7a4495505172220fc8db59db37dc16b444f6cc939e49c0d1544a",
+        "v": 28
+      }
+    },
+    {
+      "buy": true,
+      "kind": "Stop",
+      "isMarket": false,
+      "trigger": "2100",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": true,
+            "p": "2000",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": false,
+                "triggerPx": "2100",
+                "tpsl": "sl"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          }
+        ],
+        "grouping": "positionTpsl"
+      },
+      "hash": "0x67723463961508e3f143a930c1a5f40e5ddf20eb11ddece0dfd9d5363ab0d002",
+      "mainnet": {
+        "r": "0xce6214882f92de391f538b7b8d0f6948c7a328ffd645f19e0afb478515a73539",
+        "s": "0x21cd5eb2b64772f4f46d8758758de01bdd74a9ef5480f398fef81b2280c06ddd",
+        "v": 27
+      },
+      "testnet": {
+        "r": "0x159a0ee35f618fe4061cbfff6b30ab1f3372caad5ee324f370fda3d605f2a2dc",
+        "s": "0x79c13a1275e9db158c4c2f4b80878153f2e288375f95fd427876ff2a7b9397cd",
+        "v": 27
+      }
+    },
+    {
+      "buy": true,
+      "kind": "Stop",
+      "isMarket": true,
+      "trigger": "2100",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": true,
+            "p": "2310",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": true,
+                "triggerPx": "2100",
+                "tpsl": "sl"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          }
+        ],
+        "grouping": "positionTpsl"
+      },
+      "hash": "0xe1f0ea082dedafeabecc7728e3cf1cbc11b4a46810467e368ba274e1eaee5346",
+      "mainnet": {
+        "r": "0x683c7935247e93aa498f3d91feaab50258aaae25c39b859854838510e7177d2",
+        "s": "0x782f600b65383720a110add974e95438a78f47febd31ab1653eab8c9010d63d5",
+        "v": 27
+      },
+      "testnet": {
+        "r": "0x64941f32e7b86a26ac9e7306e9fd26de9e19cd9858a46b12fc7d2f1ffaa60375",
+        "s": "0x88f091fbc35c89e8a4adb11931ca351706638e23ddd5140802182b814a19989",
+        "v": 28
+      }
+    },
+    {
+      "buy": true,
+      "kind": "TP",
+      "isMarket": false,
+      "trigger": "1900",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": true,
+            "p": "2000",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": false,
+                "triggerPx": "1900",
+                "tpsl": "tp"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          }
+        ],
+        "grouping": "positionTpsl"
+      },
+      "hash": "0xbfc65d44ab717bff155386a722fdc6c033d6aaa622a16fc4f03f9e0fb1e11d84",
+      "mainnet": {
+        "r": "0x642d95e4712bb9ee12ff72368d6aca736c1f596ff854c44db6bca14b20473684",
+        "s": "0x39599107df7df499a0c6fee24d17cb0b851179c654cdbbeae9fc9bf03780ad9f",
+        "v": 28
+      },
+      "testnet": {
+        "r": "0x416d154a6989abaaf2663c506feba5650846863381c066f1e37bf6bef8429f7d",
+        "s": "0x8cd8e2a37b8e0cb180dc87719ea9033d0ac85c1a21554f798cee1bca2efad0",
+        "v": 27
+      }
+    },
+    {
+      "buy": true,
+      "kind": "TP",
+      "isMarket": true,
+      "trigger": "1900",
+      "action": {
+        "type": "order",
+        "orders": [
+          {
+            "a": 1,
+            "b": true,
+            "p": "2090",
+            "s": "0",
+            "r": true,
+            "t": {
+              "trigger": {
+                "isMarket": true,
+                "triggerPx": "1900",
+                "tpsl": "tp"
+              }
+            },
+            "c": "0x11111111111111111111111111111111"
+          }
+        ],
+        "grouping": "positionTpsl"
+      },
+      "hash": "0x40b5d6b991a4f6b6fd9f53bb53326bfda0912da63ce0f7630d05c03ba804eb14",
+      "mainnet": {
+        "r": "0x525ec8fd1412332516689b5a3b524b5ac71c2cacb666098de35b73ae84076fb5",
+        "s": "0x323896df174780b21be66ef9c1268917d35e1ab322c890b9a0c832aab88f72bd",
+        "v": 27
+      },
+      "testnet": {
+        "r": "0xbcaf1b84aed413ae89c1b2a68367419bf4c9648b8f7ed4015c7fd4d6c2d1e3c6",
+        "s": "0x29c44979db9039ca7c37b97b48e81a5ec1b5a8db58bda077430a3426a78db7bb",
+        "v": 28
+      }
+    }
+  ]
+}
