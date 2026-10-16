@@ -1,5 +1,6 @@
 import Foundation
 import NIOCore
+import NIOFoundationEssentialsCompat
 import NIOHTTP1
 import NIOPosix
 import NIOSSL

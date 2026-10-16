@@ -20,6 +20,7 @@ let package = Package(
                 .product(name: "libsecp256k1", package: "swift-secp256k1"),
                 .product(name: "AsyncHTTPClient", package: "async-http-client"),
                 .product(name: "NIOCore", package: "swift-nio"),
+                .product(name: "NIOFoundationEssentialsCompat", package: "swift-nio"),
                 .product(name: "NIOPosix", package: "swift-nio"),
                 .product(name: "NIOHTTP1", package: "swift-nio"),
                 .product(name: "NIOWebSocket", package: "swift-nio"),

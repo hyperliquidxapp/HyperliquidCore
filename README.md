@@ -20,7 +20,7 @@ The package contains no app screens, chart rendering, layout models, Touch ID wo
 Add the package and product to your manifest:
 
 ```swift
-.package(url: "https://github.com/hyperliquidxapp/HyperliquidCore.git", exact: "0.1.0")
+.package(url: "https://github.com/hyperliquidxapp/HyperliquidCore.git", exact: "0.1.1")
 // In your target dependencies:
 .product(name: "HyperliquidCore", package: "HyperliquidCore")
 ```

@@ -1,6 +1,7 @@
 import AsyncHTTPClient
 import Foundation
 import NIOCore
+import NIOFoundationEssentialsCompat
 
 /// One process-wide connection pool; requests never follow a redirect or retry
 /// an exchange POST in application code. TLS validation remains enabled.
