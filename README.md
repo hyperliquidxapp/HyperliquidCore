@@ -4,7 +4,7 @@ Swift protocol and domain library extracted from HyperliquidX. This is a communi
 
 ## Requirements
 
-Swift 6 and macOS 14 or later. Other platforms are not currently validated; the implementation uses Apple Security, CryptoKit, Network and Darwin APIs.
+Xcode 26.3 or later (Swift 6.2+) to build; macOS 14 or later to run. Other platforms are not currently validated; the implementation uses Apple Security, CryptoKit, Network and Darwin APIs.
 
 ## Scope
 
