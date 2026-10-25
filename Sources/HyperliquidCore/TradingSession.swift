@@ -84,7 +84,7 @@ public enum SessionState: String, Sendable {
 }
 
 /// Trading key with account/network binding and a finite authority window.
-/// Persistence is opt-in and only exports authenticated ciphertext protected by a passkey.
+/// Persistence is opt-in and only exports authenticated ciphertext protected by a caller-owned key.
 /// This actor never submits requests; callers must run the native confirmation workflow first.
 public actor TradingSession {
     public private(set) var state: SessionState = .inactive
@@ -103,7 +103,7 @@ public actor TradingSession {
             throw WalletError.invalid("End or resolve the existing session first")
         }
         guard Address.isValid(owner), chainID > 0, chainID <= UInt64(Int64.max),
-              (3_600_000...604_800_000).contains(duration),
+              (3_600_000...15_552_000_000).contains(duration),
               now <= UInt64(Int64.max) - duration
         else { throw WalletError.invalid("Invalid session account or chain") }
         let key = try EphemeralSigningKey()
@@ -221,8 +221,9 @@ public actor TradingSession {
         recoveryBinding = nil
     }
     public func enableRecovery(key: SymmetricKey, binding: Data) throws -> TradingSessionRecovery {
-        guard state == .active, key.bitCount == 256, !binding.isEmpty else {
-            throw WalletError.invalid("Verify an active session before enabling recovery")
+        guard [.prepared, .authorizing, .unverified, .active].contains(state),
+              self.key != nil, key.bitCount == 256, !binding.isEmpty else {
+            throw WalletError.invalid("Prepare a session before enabling protected recovery")
         }
         recoveryKey = key
         recoveryBinding = binding
@@ -234,7 +235,8 @@ public actor TradingSession {
     }
     public func encryptedRecovery() throws -> TradingSessionRecovery {
         guard let approval, let key, let recoveryKey, let recoveryBinding,
-              state == .active, Self.timestamp < approval.validUntil else {
+              [.prepared, .authorizing, .unverified, .active].contains(state),
+              Self.timestamp < approval.validUntil else {
             throw WalletError.invalid("Passkey recovery is unavailable")
         }
         let sealed = try key.seal(

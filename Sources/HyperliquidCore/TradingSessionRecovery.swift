@@ -19,7 +19,7 @@ public struct TradingSessionRecovery: Codable, Sendable {
               approval.createdAt <= now, approval.nonce == approval.createdAt,
               approval.validUntil > now, approval.validUntil <= UInt64(Int64.max),
               approval.validUntil > approval.createdAt,
-              approval.validUntil - approval.createdAt <= 604_800_000,
+              approval.validUntil - approval.createdAt <= 15_552_000_000,
               sealedKey.count == 68 else {
             throw WalletError.invalid("The remembered wallet is expired or belongs to another network")
         }
