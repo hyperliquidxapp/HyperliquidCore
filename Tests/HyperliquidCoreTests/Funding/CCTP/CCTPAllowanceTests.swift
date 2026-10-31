@@ -4,8 +4,7 @@ import Testing
 @testable import HyperliquidCore
 
 @Test func cctpAllowanceTransactionsMatchIndependentABIForBothNetworksAndDestinations() throws {
-    let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-        .deletingLastPathComponent().deletingLastPathComponent()
+    let root = try CoreFixturePaths.packageRoot()
     let fixtureURL = root.appendingPathComponent("docs/verification/funding/cctp-vectors.json")
     let fixture = try JSONDecoder().decode(JSONValue.self, from: Data(contentsOf: fixtureURL))
     let owner = try #require(fixture["owner"].string)

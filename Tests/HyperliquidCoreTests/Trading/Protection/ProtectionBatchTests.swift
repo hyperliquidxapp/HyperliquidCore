@@ -222,8 +222,7 @@ private func pairSnapshot(
 }
 
 @Test func protectionBatchSigningMatchesFrozenOfficialSDKForPairBracketAndModify() throws {
-    let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-        .deletingLastPathComponent().deletingLastPathComponent()
+    let root = try CoreFixturePaths.packageRoot()
     let fixture = try JSONDecoder().decode(
         JSONValue.self,
         from: Data(

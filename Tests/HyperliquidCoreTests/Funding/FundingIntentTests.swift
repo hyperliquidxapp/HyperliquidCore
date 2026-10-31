@@ -12,8 +12,7 @@ private func fundingToken(_ spot: Bool = false) throws -> FundingToken {
 }
 
 @Test func fundingActionsMatchIndependentSDKDigestSignaturesAndHumanReadableData() throws {
-    let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-        .deletingLastPathComponent().deletingLastPathComponent()
+    let root = try CoreFixturePaths.packageRoot()
     let fixture = try JSONDecoder().decode(
         JSONValue.self,
         from: Data(

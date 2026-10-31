@@ -4,8 +4,7 @@ import Testing
 @testable import HyperliquidCore
 
 @Test func cctpDepositAuthorizationHookAndABIEqualIndependentEthAccountAndEthABIVectors() throws {
-    let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-        .deletingLastPathComponent().deletingLastPathComponent()
+    let root = try CoreFixturePaths.packageRoot()
     let fixture = try JSONDecoder().decode(
         JSONValue.self,
         from: Data(

@@ -32,8 +32,7 @@ private func wholeIntent(
 }
 
 @Test func wholePositionProtectionMatchesIndependentSDKBothSidesTypesModesAndNetworks() throws {
-    let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-        .deletingLastPathComponent().deletingLastPathComponent()
+    let root = try CoreFixturePaths.packageRoot()
     let fixture = try JSONDecoder().decode(
         JSONValue.self,
         from: Data(
@@ -225,8 +224,7 @@ private func wholeReplacement(_ original: OpenOrder, mode: TriggerExecution? = n
 }
 
 @Test func wholePositionProtectionModificationMatchesSDKAndNeverChangesItsWireSizing() throws {
-    let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-        .deletingLastPathComponent().deletingLastPathComponent()
+    let root = try CoreFixturePaths.packageRoot()
     let fixture = try JSONDecoder().decode(
         JSONValue.self,
         from: Data(
