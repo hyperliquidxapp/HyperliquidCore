@@ -40,7 +40,16 @@ Default limits are 64 MiB per protobuf response, 1,000,000 changes per batch and
 
 ## Reproducible protocol code
 
-The [protocol subset](../Sources/HyperliquidCore/MarketData/L4/Quicknode/Protocol/quicknode_l4.proto) keeps Quicknode's published package, RPC name, fields and enum values. The official SwiftPM build plugin generates internal message/client types into the build directory. No generated checkout files are edited or used as deliverables. Runtime and generator versions are pinned in `Package.swift` and `Package.resolved`.
+The [protocol subset](../Tools/L4ProtocolCodegen/Protocol/quicknode_l4.proto) keeps Quicknode's published package, RPC name, fields and enum values. Generated internal message/client types are committed under `MarketData/L4/Quicknode/Generated`, with the official generator headers intact. SDK consumers compile these files directly. The official build plugin runs only in the separate development package `Tools/L4ProtocolCodegen`; consuming the SDK does not execute this plugin or require Xcode to trust an additional code generator.
+
+To update the protocol or verify reproducibility:
+
+```sh
+bash scripts/generate-l4-protocol.sh
+bash scripts/generate-l4-protocol.sh --check
+```
+
+The script builds the development package, copies both generated Swift files without editing them, and checks byte equality in `--check` mode. It requires a macOS 15+ development host for the generator. Runtime and development dependencies have separate pinned manifests and lockfiles. Generated files are ordinary SDK sources; dependency checkout files are never edited.
 
 ```sh
 swift test --no-parallel

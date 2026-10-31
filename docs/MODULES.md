@@ -37,4 +37,4 @@ The original directory reorganization preserved all 51 existing implementation f
 swift test --no-parallel
 ```
 
-Network probes remain opt-in as described in the [README](../README.md). The L4 implementation follows `MarketData/L4` ownership. See [L4 coverage, macOS availability and protocol generation](L4_BOOK.md). App presentation, configuration persistence, Keychain and reconnect orchestration remain outside this package.
+Network probes remain opt-in as described in the [README](../README.md). The L4 implementation follows `MarketData/L4` ownership. See [L4 coverage, macOS availability and protocol generation](L4_BOOK.md). Committed protocol output is under `MarketData/L4/Quicknode/Generated`; the official generator runs in the separate development package `Tools/L4ProtocolCodegen`. App presentation, configuration persistence, Keychain and reconnect orchestration remain outside this package.
