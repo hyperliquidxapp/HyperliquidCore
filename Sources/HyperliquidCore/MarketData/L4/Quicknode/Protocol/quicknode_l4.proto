@@ -1,0 +1,37 @@
+// Wire-compatible subset of Quicknode's orderbook.proto, StreamL4BookUpdates.
+// https://github.com/quiknode-labs/hypercore-grpc-examples/blob/main/proto/orderbook.proto
+// No field numbers or enum values have been changed. Other RPCs are intentionally omitted.
+syntax = "proto3";
+package hyperliquid;
+
+service OrderBookStreaming {
+  rpc StreamL4BookUpdates (L4BookUpdatesRequest) returns (stream L4BookUpdatesUpdate);
+}
+
+message L4BookUpdatesRequest {
+  repeated string coins = 1;
+}
+
+enum L4OrderDiffType {
+  L4_ORDER_DIFF_TYPE_UNSPECIFIED = 0;
+  L4_ORDER_DIFF_TYPE_NEW = 1;
+  L4_ORDER_DIFF_TYPE_UPDATE = 2;
+  L4_ORDER_DIFF_TYPE_REMOVE = 3;
+}
+
+message L4BookUpdatesUpdate {
+  uint64 time = 1;
+  uint64 height = 2;
+  repeated L4OrderDiff diffs = 3;
+  bool snapshot = 4;
+}
+
+message L4OrderDiff {
+  L4OrderDiffType diff_type = 1;
+  string coin = 2;
+  uint64 oid = 3;
+  string user = 4;
+  string side = 5;
+  string px = 6;
+  string sz = 7;
+}
