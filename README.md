@@ -15,6 +15,10 @@ Xcode 26.3 or later (Swift 6.2+) to build; macOS 14 or later to run. Other platf
 
 The package contains no app screens, chart rendering, layout models, Touch ID workflow, Reown dependency, or bundled wallet web page. Applications provide their own UI and wallet integration. APIs are initially experimental; releases before 1.0 may change them.
 
+## Module organization
+
+Implementation and tests are grouped by Hyperliquid domain: types, networking, market data, accounts, trading, signing, wallet, funding and analytics. See [module ownership and fixture paths](docs/MODULES.md). Public imports remain `import HyperliquidCore`.
+
 ## Swift Package Manager
 
 Add the package and product to your manifest:
