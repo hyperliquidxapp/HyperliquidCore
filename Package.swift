@@ -35,6 +35,13 @@ let package = Package(
                 .product(name: "SwiftProtobuf", package: "swift-protobuf")
             ],
             plugins: [.plugin(name: "GRPCProtobufGenerator", package: "grpc-swift-protobuf")]),
-        .testTarget(name: "HyperliquidCoreTests", dependencies: ["HyperliquidCore"])
+        .testTarget(name: "HyperliquidCoreTests", dependencies: [
+            "HyperliquidCore",
+            .product(name: "GRPCCore", package: "grpc-swift-2"),
+            .product(name: "GRPCInProcessTransport", package: "grpc-swift-2"),
+            .product(name: "GRPCNIOTransportHTTP2Posix", package: "grpc-swift-nio-transport"),
+            .product(name: "GRPCProtobuf", package: "grpc-swift-protobuf"),
+            .product(name: "SwiftProtobuf", package: "swift-protobuf")
+        ])
     ]
 )
