@@ -11,6 +11,7 @@ Application screens, workspace/window state, rendering, user preferences, Keycha
 | `Types` | Network identity, wire JSON and shared Hyperliquid models; receipt clock | `Models`, `ReceiptClock` |
 | `Networking` | Hyperliquid REST/WS API and bounded NIO transports | `HyperliquidAPI`, `NIOHTTPTransport`, `NIOWebSocketTransport` |
 | `MarketData` | Market catalogs, market context, Hyperliquid trades and observation windows | `HIP3Catalog`, `MarketContextBook`, `LargeTradeMonitor`, `TradeObservationWindow` |
+| `MarketData/L4` | Hyperliquid per-OID state, checked price indexes and Quicknode typed L4 protocol/client | `L4BookReducer`, `L4Models`, `QuicknodeL4Client` |
 | `Accounts` | Hyperliquid account subscriptions, state and history | `AccountStream`, `AccountHistory` |
 | `Signing` | Exchange signing, wire serialization and credential proof verification | `EthereumSigning`, `SigningPayload`, `PasskeyVerification` |
 | `Trading/Sessions` | Hyperliquid API-wallet authorization and protected-session recovery contracts | `TradingSession`, `TradingSessionRecovery` |
@@ -24,16 +25,16 @@ Application screens, workspace/window state, rendering, user preferences, Keycha
 | `Funding/Unit` | Unit deposit requests and address encoding used by those routes | `UnitDeposit`, `ZcashDepositEncoding` |
 | `Analytics` | Hyperliquid account/market analytical queries and read contracts | `AgentQuery`, `AgentAnalytics`, `AgentReadClient` |
 
-All 51 implementation files are under [Sources/HyperliquidCore](../Sources/HyperliquidCore). The 40 existing test files mirror these directories under [Tests/HyperliquidCoreTests](../Tests/HyperliquidCoreTests). Tests spanning multiple areas stay with the workflow they primarily verify.
+Implementation files are under [Sources/HyperliquidCore](../Sources/HyperliquidCore). Tests mirror these directories under [Tests/HyperliquidCoreTests](../Tests/HyperliquidCoreTests). Tests spanning multiple areas stay with the workflow they primarily verify.
 
 ## Verification fixtures
 
 Published signing/funding JSON vectors remain in [docs/verification](verification). Nested tests locate the package root through [CoreFixturePaths](../Tests/HyperliquidCoreTests/Fixtures/CoreFixturePaths.swift), so moving a test does not change its fixture selection. The helper also works from an editable package or dependency checkout, without relying on the process working directory or `.git` metadata.
 
-The reorganization preserves every implementation file byte-for-byte. Only six fixture path expressions in five test files change, plus the new shared test helper. No package dependency, target, product, signing payload, request body or domain calculation changes.
+The original directory reorganization preserved all 51 existing implementation files byte-for-byte. Only six fixture path expressions in five test files change, plus the new shared test helper. That reorganization changed no package dependency, target, product, signing payload, request body or domain calculation. Later L4 commits add protocol-specific implementation and dependencies described separately below.
 
 ```sh
 swift test --no-parallel
 ```
 
-Network probes remain opt-in as described in the [README](../README.md). L4-specific protocol models, adapters and order reducers should follow `MarketData` ownership when implemented; this directory reorganization itself does not add L4 functionality.
+Network probes remain opt-in as described in the [README](../README.md). The L4 implementation follows `MarketData/L4` ownership. See [L4 coverage, macOS availability and protocol generation](L4_BOOK.md). App presentation, configuration persistence, Keychain and reconnect orchestration remain outside this package.

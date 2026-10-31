@@ -4,11 +4,12 @@ Swift protocol and domain library extracted from HyperliquidX. This is a communi
 
 ## Requirements
 
-Xcode 26.3 or later (Swift 6.2+) to build; macOS 14 or later to run. Other platforms are not currently validated; the implementation uses Apple Security, CryptoKit, Network and Darwin APIs.
+Xcode 26.3 or later (Swift 6.2+) to build; macOS 14 or later to run. The optional gRPC L4 client requires macOS 15 or later; reducers and existing REST/WS APIs retain macOS 14 support. Other platforms are not currently validated; the implementation uses Apple Security, CryptoKit, Network and Darwin APIs.
 
 ## Scope
 
 - REST and WebSocket transports, market catalogs (including HIP-3), candles and order books.
+- Full per-order L4 reconstruction and a configurable Quicknode typed gRPC client; see [L4 coverage and contracts](docs/L4_BOOK.md).
 - Account streams, history, order validation, slippage and position risk calculations.
 - Ethereum signing, temporary trading sessions, wallet connection models and a local browser-wallet bridge.
 - Transfers and deposit routing, including CCTP and Unit-related models and clients.
