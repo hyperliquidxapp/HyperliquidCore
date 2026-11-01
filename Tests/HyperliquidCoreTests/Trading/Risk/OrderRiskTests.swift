@@ -3,7 +3,7 @@ import Testing
 
 @testable import HyperliquidCore
 
-private let riskAddress = "0x5742261Ef0516AD70C4217cc573fa21485289D3B"
+private let riskAddress = "0xAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCd"
 private let riskMarket = Market(
     coin: "ETH", symbol: "ETH", assetID: 1, sizeDecimals: 4, maxLeverage: 20, kind: .perp)
 private func riskJSON(_ raw: String) throws -> JSONValue {

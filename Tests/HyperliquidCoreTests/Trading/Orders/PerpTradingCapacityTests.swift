@@ -3,7 +3,7 @@ import Testing
 
 @testable import HyperliquidCore
 
-private let capacityAddress = "0x5742261Ef0516AD70C4217cc573fa21485289D3B"
+private let capacityAddress = "0xAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCd"
 private let capacityMarket = Market(
     coin: "ETH", symbol: "ETH", assetID: 1, sizeDecimals: 4, maxLeverage: 20, kind: .perp)
 private func capacityAsset(

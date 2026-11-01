@@ -4,7 +4,7 @@ import Testing
 
 @testable import HyperliquidCore
 
-private let recoveryOwner = "0x12403356d523ff2e7c2e762a17b7306ad0fbd839"
+private let recoveryOwner = "0xfedcfedcfedcfedcfedcfedcfedcfedcfedcfedc"
 private let recoveryAction = ExchangeAction.leverage(assetID: 1, value: 2, cross: true)
 private func recoveryAgents(_ value: SessionApproval) -> JSONValue {
     .array([.object(["name": .string(SessionApproval.name), "address": .string(value.agentAddress),

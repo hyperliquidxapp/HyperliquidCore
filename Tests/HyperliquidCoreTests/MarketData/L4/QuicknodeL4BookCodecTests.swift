@@ -5,7 +5,7 @@ import Testing
 @Suite struct QuicknodeL4BookCodecTests {
     private func diff(_ kind: JSONValue = .string("L4_ORDER_DIFF_TYPE_NEW"), coin: String = "ETH", oid: JSONValue = .string("18446744073709551615")) -> JSONValue {
         .object(["diff_type": kind, "coin": .string(coin), "oid": oid,
-                 "user": .string("0x12403356D523Ff2E7C2E762A17B7306AD0FBD839"),
+                 "user": .string("0xFeDcFeDcFeDcFeDcFeDcFeDcFeDcFeDcFeDcFeDc"),
                  "side": .string("B"), "px": .string("100"), "sz": .string("0.1")])
     }
 

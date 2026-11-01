@@ -4,7 +4,7 @@ import Testing
 @testable import HyperliquidCore
 
 @Test func walletConnectionRejectsAccountChainAndReconnectChanges() throws {
-    let address = "0x5742261Ef0516AD70C4217cc573fa21485289D3B"
+    let address = "0xAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCd"
     let first = try WalletConnection(address: address, chainID: 42161)
     let equivalent = try WalletConnection(
         address: address.lowercased(), chainID: 42161, id: first.id)

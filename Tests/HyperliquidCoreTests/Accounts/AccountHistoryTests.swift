@@ -3,7 +3,7 @@ import Testing
 
 @testable import HyperliquidCore
 
-private let archiveOwner = "0x5742261Ef0516AD70C4217cc573fa21485289D3B"
+private let archiveOwner = "0xAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCd"
 private func archivedFill(_ time: Int64, tid: Int64 = 1, coin: String = "ETH", fee: String = "1")
 -> JSONValue {
     .object([

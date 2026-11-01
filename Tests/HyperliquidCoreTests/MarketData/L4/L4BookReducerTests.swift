@@ -3,7 +3,7 @@ import Testing
 @testable import HyperliquidCore
 
 @Suite struct L4BookReducerTests {
-    private let user = "0x12403356D523Ff2E7C2E762A17B7306AD0FBD839"
+    private let user = "0xFeDcFeDcFeDcFeDcFeDcFeDcFeDcFeDcFeDcFeDc"
 
     private func order(_ oid: UInt64, _ price: String = "100", _ size: String = "1",
                        side: L4OrderIdentity.Side = .bid, user: String? = nil) throws -> L4Order {

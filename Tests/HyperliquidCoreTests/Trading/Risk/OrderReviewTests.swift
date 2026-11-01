@@ -139,7 +139,7 @@ private func reviewFees(maker: String = "0.0004", referral: String = "0.1") thro
 }
 
 @Test func activeAssetDataBindsAccountAndMarketBeforeLeverageUse() throws {
-    let address = "0x5742261Ef0516AD70C4217cc573fa21485289D3B"
+    let address = "0xAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCd"
     let raw = try reviewJSON(
         """
         {"user":"\(address.lowercased())","coin":"ETH","leverage":{"type":"cross","value":20},"maxTradeSzs":["0.0","0.0"],"availableToTrade":["0.0","0.0"],"markPx":"2659.4"}

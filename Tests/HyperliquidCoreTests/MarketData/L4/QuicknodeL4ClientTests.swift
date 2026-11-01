@@ -20,7 +20,7 @@ private struct QuicknodeL4ClientHarness {
         diff.diffType = .init(rawValue: 1)!
         diff.coin = "ETH"
         diff.oid = .max
-        diff.user = "0x12403356d523ff2e7c2e762a17b7306ad0fbd839"
+        diff.user = "0xfedcfedcfedcfedcfedcfedcfedcfedcfedcfedc"
         diff.side = "B"
         diff.px = "100"
         diff.sz = "0.1"
