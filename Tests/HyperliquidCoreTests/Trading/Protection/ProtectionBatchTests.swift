@@ -299,3 +299,22 @@ private func pairSnapshot(
         }
     }
 }
+
+@Test func protectionBatchBuilderFeesMatchPlacementsAndLeaveModificationWireUnchanged() throws {
+    let builder = try BuilderFee(address: pairOwner, tenthsOfBasisPoint: 10)
+    let batch = try pairBatch()
+    let fees = try pairSnapshot().validate(batch, builder: builder)
+    #expect(fees.allSatisfy { $0.builder == builder && $0.builderAmount > 0 })
+    let placed = try batch.action(builder: builder)
+    let json = try JSONDecoder().decode(JSONValue.self, from: placed.jsonData())
+    #expect(json["builder"]["f"].int64 == 10)
+    #expect(json["grouping"].string == "positionTpsl" && json["orders"].array.count == 2)
+    #expect(try SigningPayload.actionHash(action: placed, nonce: 1) != SigningPayload.actionHash(action: batch.action, nonce: 1))
+    let originals = [pairRow(kind: "Take Profit Market", oid: 70), pairRow(kind: "Stop Market", oid: 71)]
+    let modified = try ProtectionBatch.modification(
+        owner: pairOwner, environment: .testnet, market: pairMarket, position: pairPosition(), originals: originals,
+        mark: 2000, takeProfit: .init(trigger: "2200", execution: .market, limit: "2200"),
+        stopLoss: .init(trigger: "1800", execution: .market, limit: "1800"))
+    #expect(try modified.action(builder: builder).messagePack() == modified.action.messagePack())
+    #expect(try pairSnapshot(orders: originals).validate(modified, builder: builder).allSatisfy { $0.builder == nil })
+}

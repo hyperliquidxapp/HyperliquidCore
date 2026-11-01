@@ -45,7 +45,7 @@ public struct ProtectionAccountSnapshot: Sendable {
         }
         try asset.validate(address: owner, market: market)
     }
-    public func validate(_ batch: ProtectionBatch, now: Double = ReceiptClock.now) throws
+    public func validate(_ batch: ProtectionBatch, now: Double = ReceiptClock.now, builder: BuilderFee? = nil) throws
     -> [OrderFeeEstimate] {
         try validateContext(
             owner: batch.owner, market: batch.market, environment: batch.environment, now: now)
@@ -83,7 +83,7 @@ public struct ProtectionAccountSnapshot: Sendable {
                 }
             }
         }
-        return try batch.legs.map { try fees.estimate(for: $0.intent) }
+        return try batch.legs.map { try fees.estimate(for: $0.intent, builder: batch.mode == .modify ? nil : builder) }
     }
 }
 
