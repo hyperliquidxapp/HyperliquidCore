@@ -12,6 +12,7 @@ public struct L4BookReducer {
         let rawPrice: String
         var size: Decimal = 0
         var members: Set<UInt64> = []
+        var revision: UUID?
     }
     private final class StagedLevel {
         var value: Level
@@ -47,6 +48,63 @@ public struct L4BookReducer {
     /// Numeric OID order is for deterministic inspection. It is not FIFO or a queue-priority estimate.
     public func ordersSortedByID(side: L4OrderIdentity.Side, price: Decimal) -> [L4Order] {
         (levels[PriceKey(side: side, price: price)]?.members ?? []).sorted().compactMap { orders[$0] }
+    }
+
+    /// Returns at most `limit` rows plus an opaque continuation. Only O(limit) IDs are retained while scanning.
+    /// Changes at another price leave the cursor valid; any touch/reset of this level invalidates it.
+    public func orderPage(side: L4OrderIdentity.Side, price: Decimal, after cursor: L4OrderPageCursor? = nil,
+                          limit: Int = 100) throws -> L4OrderPage {
+        guard (1...500).contains(limit) else { throw L4BookQueryError.invalidLimit }
+        guard !price.isNaN, price > 0 else { throw L4BookQueryError.invalidPrice }
+        guard status == .live, let height, let time else { throw L4BookError.snapshotRequired }
+        let level = levels[PriceKey(side: side, price: price)]
+        if let cursor {
+            guard cursor.environment == environment, cursor.coin == coin, cursor.side == side,
+                  cursor.price == price, cursor.afterOID > 0 else { throw L4BookQueryError.invalidCursor }
+            guard cursor.levelRevision == level?.revision else { throw L4BookQueryError.staleCursor }
+        }
+        let ids = Self.lowestIDs(level?.members ?? [], after: cursor?.afterOID, capacity: limit + 1)
+        let page = try ids.prefix(limit).map { oid in
+            guard let order = orders[oid] else { throw L4BookError.invalidOrder }
+            return order
+        }
+        let next: L4OrderPageCursor?
+        if ids.count > limit, let last = page.last, let revision = level?.revision {
+            next = L4OrderPageCursor(environment: environment, coin: coin, side: side, price: price,
+                                     levelRevision: revision, afterOID: last.oid)
+        } else { next = nil }
+        return L4OrderPage(environment: environment, coin: coin, side: side, price: price, height: height, time: time,
+                           levelRevision: level?.revision, totalOrderCount: level?.members.count ?? 0,
+                           totalSize: level?.size ?? 0, orders: page, nextCursor: next)
+    }
+
+    /// Bounded max heap: retain the lowest capacity OIDs without copying or sorting the whole membership set.
+    private static func lowestIDs(_ members: Set<UInt64>, after: UInt64?, capacity: Int) -> [UInt64] {
+        var heap: [UInt64] = []
+        heap.reserveCapacity(capacity)
+        for oid in members where after.map({ oid > $0 }) ?? true {
+            if heap.count < capacity {
+                heap.append(oid)
+                var index = heap.count - 1
+                while index > 0 {
+                    let parent = (index - 1) / 2
+                    guard heap[index] > heap[parent] else { break }
+                    heap.swapAt(index, parent)
+                    index = parent
+                }
+            } else if oid < heap[0] {
+                heap[0] = oid
+                var index = 0
+                while index * 2 + 1 < heap.count {
+                    let left = index * 2 + 1, right = left + 1
+                    let child = right < heap.count && heap[right] > heap[left] ? right : left
+                    guard heap[child] > heap[index] else { break }
+                    heap.swapAt(index, child)
+                    index = child
+                }
+            }
+        }
+        return heap.sorted()
     }
 
     public mutating func invalidate() {
@@ -134,8 +192,7 @@ public struct L4BookReducer {
             for (key, staged) in levelChanges {
                 let hasMembers = !staged.value.members.isEmpty
                 guard (levels[key] != nil) != hasMembers else { continue }
-                if key.side == .bid { Self.updatePrices(&nextBids, price: key.price, insert: hasMembers, descending: true) }
-                else { Self.updatePrices(&nextAsks, price: key.price, insert: hasMembers, descending: false) }
+                if key.side == .bid { Self.updatePrices(&nextBids, price: key.price, insert: hasMembers, descending: true) } else { Self.updatePrices(&nextAsks, price: key.price, insert: hasMembers, descending: false) }
             }
         }
         let book = try projection(bids: nextBids, asks: nextAsks, time: update.time, maximumLevels: 20) {
@@ -149,8 +206,13 @@ public struct L4BookReducer {
             case .removed: orders.removeValue(forKey: oid)
             }
         }
+        // One new local revision per committed batch; untouched levels keep their inspection cursors.
+        let revision = UUID()
         for (key, staged) in levelChanges {
-            if staged.value.members.isEmpty { levels.removeValue(forKey: key) } else { levels[key] = staged.value }
+            if staged.value.members.isEmpty { levels.removeValue(forKey: key) } else {
+                staged.value.revision = revision
+                levels[key] = staged.value
+            }
         }
         bids = nextBids
         asks = nextAsks
@@ -193,7 +255,6 @@ public struct L4BookReducer {
             let middle = (low + high) / 2
             if descending ? prices[middle] > price : prices[middle] < price { low = middle + 1 } else { high = middle }
         }
-        if insert { prices.insert(price, at: low) }
-        else if prices.indices.contains(low), prices[low] == price { prices.remove(at: low) }
+        if insert { prices.insert(price, at: low) } else if prices.indices.contains(low), prices[low] == price { prices.remove(at: low) }
     }
 }

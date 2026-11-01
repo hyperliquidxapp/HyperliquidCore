@@ -57,6 +57,14 @@ swift test --no-parallel
 
 The suite covers reducer/reference equivalence, whole-state resets, checked arithmetic, malformed batches, capacity, network/credential validation, typed in-process RPC delivery, trailing error status, consumer cancellation and an actual HTTP/2 loopback message-size check. These are local contract tests, not evidence that an authenticated provider endpoint is delivering complete production state.
 
+## Bounded order inspection
+
+`L4BookReducer.orderPage(side:price:after:limit:)` reads one price level without exporting the entire OID map. The result contains exact aggregate size/count, current block/time, validated orders with wallet attribution, and an opaque next cursor. Limits are 1–500 rows (default 100). Numeric OID sorting is deterministic inspection, not queue/FIFO order.
+
+The selector scans existing level membership and retains at most `limit + 1` IDs in a bounded heap, then sorts only those IDs. It uses O(limit) auxiliary memory; CPU remains proportional to the level membership and is not part of a claimed streaming latency SLA. Callers should request pages on demand rather than every source update.
+
+A cursor binds environment, coin, side, normalized price, and a local level revision. Every committed batch assigns a fresh revision to touched levels; unrelated levels keep theirs. Replacement snapshots and new connections cannot reuse old level cursors. Changing or deleting the queried level raises `L4BookQueryError.staleCursor`, so clients must refresh the first page instead of merging inconsistent pages. This local revision is not an exchange sequence. Queries never mutate or invalidate the book; invalid limits/prices/scope, absent baselines and stale cursors are explicit errors. An absent level in a live book is an explicit empty page.
+
 ## Primary contracts
 
 - [Quicknode typed L4 updates](https://www.quicknode.com/docs/hyperliquid/datasets/l4-book-updates)
