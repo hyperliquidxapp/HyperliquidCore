@@ -5,29 +5,38 @@ import Testing
 
 @Test func zcashDepositTEXEncodingMatchesZIP320VectorAndRejectsChangedChecksumAndNetwork() throws {
     let address = "tex1s2rt77ggv6q989lr49rkgzmh5slsksa9khdgte"
-    #expect(try ZcashDepositEncoding.transparentAddress(fromTEX: address, environment: .mainnet)
-        == "t1VmmGiyjVNeCjxDZzg7vZmd99WyzVby9yC")
+    #expect(
+        try ZcashDepositEncoding.transparentAddress(fromTEX: address, environment: .mainnet)
+            == "t1VmmGiyjVNeCjxDZzg7vZmd99WyzVby9yC")
     #expect(throws: (any Error).self) {
         try ZcashDepositEncoding.transparentAddress(fromTEX: address, environment: .testnet)
     }
     #expect(throws: (any Error).self) {
-        try ZcashDepositEncoding.transparentAddress(fromTEX: String(address.dropLast()) + "q", environment: .mainnet)
+        try ZcashDepositEncoding.transparentAddress(
+            fromTEX: String(address.dropLast()) + "q", environment: .mainnet)
     }
 }
 
 @Test func zcashDepositAddressAuthenticatesTheExactRecipientBehindTheReturnedTEXAddress() throws {
     let response: JSONValue = .object([
-        "status": .string("OK"), "address": .string("tex133pe24m5utaqrfjhln0xd3resg74z2rhenesz0"),
+        "address": .string("tex1m69nhjfr5vjaa3rqu6u53kkrga0mnlkndntdgn"),
         "signatures": .object([
-            "field-node": .string("tNY/nGrmLSf2JasSZAak3vQ1Wb0tebiTCxqcrziGiGR9mLlvDqscNDlMqNs+I7NZbFg259aWvaFb+NVe9XtAqA=="),
-            "hl-node": .string("o+T8aWlLCoJYVoCnSPzRH3mWUXxCqeGpS6Pu1uPGKXX3EcX1q1FCLZugdDO/qKo7OpB0lZgHJXqjIZWfIWrCbQ==")
-        ])
+            "field-node": .string(
+                "NrlY68iVAKjCCsr2t4m5QPTaPYe4qYFk1ppaVUGMnI60hIiiG/onqpegkTIA7NCIoL02bLa+WsJMpQhcgFoMxA=="
+            ),
+            "hl-node": .string(
+                "msSGBeopiyo7c1bijWlr3qBKMc39PtZRTBt5i984u5LvRaVtvEuI0JfcM2+cbo6hyExgSCxSb4D6V/xI/t1DYg=="
+            ),
+        ]),
+        "status": .string("OK"),
     ])
-    let owner = "0x5742261Ef0516AD70C4217cc573fa21485289D3B"
-    let verified = try UnitDepositAddress(response: response, asset: .zec, owner: owner, environment: .mainnet)
+    let owner = "0xAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCdAbCd"
+    let verified = try UnitDepositAddress(
+        response: response, asset: .zec, owner: owner, environment: .mainnet)
     #expect(verified.address == response["address"].string && verified.owner == owner.lowercased())
     #expect(throws: (any Error).self) {
-        try UnitDepositAddress(response: response, asset: .zec, owner: "0x1111111111111111111111111111111111111111",
-                               environment: .mainnet)
+        try UnitDepositAddress(
+            response: response, asset: .zec, owner: "0x1111111111111111111111111111111111111111",
+            environment: .mainnet)
     }
 }
