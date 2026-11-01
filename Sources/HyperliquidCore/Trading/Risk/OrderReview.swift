@@ -2,7 +2,7 @@ import Foundation
 
 /// User-specific rates already include the account's tier and staking discount.
 /// Applies the official additional referral and stable-pair factors for the
-/// current catalog: validator perps and USDC-quoted spot, without builders.
+/// current catalog: validator perps and USDC-quoted spot. Optional builder fees are added afterwards.
 public struct UserFeeRates: Sendable, Equatable {
     public let perpMaker: Decimal
     public let perpTaker: Decimal
@@ -21,7 +21,7 @@ public struct UserFeeRates: Sendable, Equatable {
             throw OrderValidationError.invalid("Invalid account fee rates")
         }
     }
-    public func estimate(for intent: OrderIntent) throws -> OrderFeeEstimate {
+    public func estimate(for intent: OrderIntent, builder: BuilderFee? = nil) throws -> OrderFeeEstimate {
         guard
             intent.market.kind == .perp
                 ? intent.market.assetID < 10_000 : intent.market.quoteTokenIndex == 0
@@ -33,7 +33,7 @@ public struct UserFeeRates: Sendable, Equatable {
             intent.market.kind == .spot && intent.market.isStablePair ? Decimal(string: "0.2")! : 1
         var maker = (intent.market.kind == .spot ? spotMaker : perpMaker) * stableScale
         if maker > 0 { maker *= 1 - referralDiscount }
-        let taker =
+        var taker =
             (intent.market.kind == .spot ? spotTaker : perpTaker) * stableScale
             * (1 - referralDiscount)
         let notional =
@@ -42,6 +42,10 @@ public struct UserFeeRates: Sendable, Equatable {
         else {
             throw OrderValidationError.invalid("Order value is too large to estimate fees")
         }
+        let effectiveBuilder = try builder?.applicable(to: intent)
+        let builderRate = effectiveBuilder?.rate ?? 0
+        maker += builderRate
+        taker += builderRate
         let makerOnly = intent.kind == .limit && intent.timeInForce == .postOnly
         let takerOnly =
             intent.kind == .market || (intent.kind == .limit && intent.timeInForce == .ioc)
@@ -49,7 +53,8 @@ public struct UserFeeRates: Sendable, Equatable {
         let lower = makerOnly ? maker : takerOnly ? taker : min(maker, taker)
         let upper = makerOnly ? maker : takerOnly ? taker : max(maker, taker)
         return OrderFeeEstimate(
-            lower: notional * lower, upper: notional * upper, maximumRate: upper)
+            lower: notional * lower, upper: notional * upper, maximumRate: upper,
+            builder: effectiveBuilder, builderAmount: notional * builderRate)
     }
 }
 
@@ -57,7 +62,17 @@ public struct OrderFeeEstimate: Sendable, Equatable {
     public let lower: Decimal
     public let upper: Decimal
     public let maximumRate: Decimal
+    public let builder: BuilderFee?
+    public let builderAmount: Decimal
+    public init(lower: Decimal, upper: Decimal, maximumRate: Decimal, builder: BuilderFee? = nil, builderAmount: Decimal = 0) {
+        self.lower = lower
+        self.upper = upper
+        self.maximumRate = maximumRate
+        self.builder = builder
+        self.builderAmount = builderAmount
+    }
     public func validate(current: OrderFeeEstimate) throws {
+        guard current.builder == builder else { throw BuilderFeeError.feeChanged }
         guard current.maximumRate <= maximumRate else {
             throw OrderValidationError.invalid(
                 "Account fees increased. Create a new preview to review the current estimate.")
