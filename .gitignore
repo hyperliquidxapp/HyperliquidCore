@@ -4,3 +4,12 @@
 .env
 .env.*
 *.xcuserstate
+
+# Local signing material and exported credentials.
+*.p8
+*.p12
+*.pem
+*.key
+*.keystore
+*.keychain
+*.keychain-db
