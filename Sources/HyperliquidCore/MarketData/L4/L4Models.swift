@@ -41,10 +41,21 @@ public struct L4Order: Equatable, Sendable {
         rawSize = size
         self.size = try L4Decimal.positive(size)
     }
+
+    fileprivate init(identity: L4OrderIdentity, remainingSize: String) throws {
+        self.identity = identity
+        rawSize = remainingSize
+        size = try L4Decimal.nonnegative(remainingSize)
+    }
 }
 
 public enum L4OrderChange: Equatable, Sendable {
     case new(L4Order), update(L4Order), remove(L4OrderIdentity)
+
+    /// Absolute remaining quantity. Zero retires an existing order, never a resting zero-size order.
+    public static func update(identity: L4OrderIdentity, remainingSize: String) throws -> Self {
+        .update(try L4Order(identity: identity, remainingSize: remainingSize))
+    }
 
     public var identity: L4OrderIdentity {
         switch self {
@@ -86,9 +97,15 @@ public struct L4BookView: Sendable {
 
 enum L4Decimal {
     static func positive(_ raw: String) throws -> Decimal {
+        let value = try nonnegative(raw)
+        guard value > 0 else { throw L4BookError.invalidOrder }
+        return value
+    }
+
+    static func nonnegative(_ raw: String) throws -> Decimal {
         guard raw.utf8.count <= 128 else { throw L4BookError.invalidOrder }
         let significant = raw.filter { $0 != "." }.drop(while: { $0 == "0" }).reversed().drop(while: { $0 == "0" })
-        guard significant.count <= 38, let value = try? ReviewDecimal.parse(raw), value > 0 else {
+        guard significant.count <= 38, let value = try? ReviewDecimal.parse(raw), value >= 0 else {
             throw L4BookError.invalidOrder
         }
         return value

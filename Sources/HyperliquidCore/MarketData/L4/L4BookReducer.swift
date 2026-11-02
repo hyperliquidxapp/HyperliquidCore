@@ -143,6 +143,9 @@ public struct L4BookReducer {
         guard update.snapshot || status == .live else { throw L4BookError.snapshotRequired }
         let reset = update.snapshot
         var orderChanges: [UInt64: Change] = [:]
+        // Some blocks include a final REMOVE after an absolute size update to zero.
+        // Only that same-batch, exact-identity retirement is idempotent.
+        var zeroRetirements: [UInt64: L4OrderIdentity] = [:]
         var levelChanges: [PriceKey: StagedLevel] = [:]
         var count = reset ? 0 : orderCount
         func existing(_ oid: UInt64) -> L4Order? {
@@ -160,6 +163,8 @@ public struct L4BookReducer {
             levelChanges[key] = staged
             switch change {
             case .new(let order):
+                guard order.size > 0 else { throw L4BookError.invalidOrder }
+                zeroRetirements.removeValue(forKey: order.oid)
                 guard previous == nil else { throw L4BookError.duplicateOrder }
                 guard count < maximumOrders else { throw L4BookError.capacityExceeded }
                 count += 1
@@ -171,9 +176,20 @@ public struct L4BookReducer {
                 guard let previous else { throw L4BookError.unknownOrder }
                 guard previous.identity.matches(identity) else { throw L4BookError.identityChanged }
                 staged.value.size = try L4Decimal.add(try L4Decimal.subtract(staged.value.size, previous.size), order.size)
-                orderChanges[order.oid] = .present(order)
+                if order.size == 0 {
+                    guard staged.value.members.remove(order.oid) != nil else { throw L4BookError.unknownOrder }
+                    count -= 1
+                    orderChanges[order.oid] = .removed
+                    zeroRetirements[order.oid] = identity
+                } else {
+                    orderChanges[order.oid] = .present(order)
+                }
             case .remove:
                 guard !reset else { throw L4BookError.invalidOrder }
+                if previous == nil, let retired = zeroRetirements.removeValue(forKey: identity.oid) {
+                    guard retired.matches(identity) else { throw L4BookError.identityChanged }
+                    continue
+                }
                 guard let previous else { throw L4BookError.unknownOrder }
                 guard previous.identity.matches(identity) else { throw L4BookError.identityChanged }
                 guard staged.value.members.remove(identity.oid) != nil else { throw L4BookError.unknownOrder }

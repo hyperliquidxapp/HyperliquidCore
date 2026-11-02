@@ -26,7 +26,9 @@ enum QuicknodeL4WireMapping {
             let change: L4OrderChange
             switch diff.diffType.rawValue {
             case 1: change = .new(try sizedOrder())
-            case 2: change = .update(try sizedOrder())
+            case 2:
+                do { change = try .update(identity: identity, remainingSize: diff.sz) }
+                catch { throw invalid(.size, diff.sz) }
             case 3: change = .remove(identity)
             default: throw L4BookError.invalidPayload
             }

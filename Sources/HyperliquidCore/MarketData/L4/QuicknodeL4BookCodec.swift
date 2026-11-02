@@ -29,7 +29,7 @@ public enum QuicknodeL4BookCodec {
             return .new(try L4Order(identity: identity, size: size))
         case .string("L4_ORDER_DIFF_TYPE_UPDATE"), .integer(2):
             guard let size = raw["sz"].string else { throw L4BookError.invalidPayload }
-            return .update(try L4Order(identity: identity, size: size))
+            return try .update(identity: identity, remainingSize: size)
         case .string("L4_ORDER_DIFF_TYPE_REMOVE"), .integer(3): return .remove(identity)
         default: throw L4BookError.invalidPayload
         }
