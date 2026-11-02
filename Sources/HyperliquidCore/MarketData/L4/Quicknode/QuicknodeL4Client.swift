@@ -44,7 +44,7 @@ public struct QuicknodeL4Client: Sendable {
     static func sanitizedError(_ error: any Error) -> any Error {
         if Task.isCancelled || error is CancellationError { return CancellationError() }
         if let error = error as? ConsumerError { return error.underlying }
-        if error is L4BookError || error is QuicknodeL4StreamError { return error }
+        if error is L4BookError || error is QuicknodeL4DecodingFailure || error is QuicknodeL4StreamError { return error }
         if let error = error as? RPCError {
             // Keep provider status text, causes and metadata out of ordinary App diagnostics.
             switch error.code {
