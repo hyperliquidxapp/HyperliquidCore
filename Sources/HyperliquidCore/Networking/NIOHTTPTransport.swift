@@ -6,9 +6,13 @@ import NIOFoundationEssentialsCompat
 /// One process-wide connection pool; requests never follow a redirect or retry
 /// an exchange POST in application code. TLS validation remains enabled.
 public struct NIOHTTPTransport: Sendable {
-    private static let client = HTTPClient(
-        eventLoopGroupProvider: .singleton,
-        configuration: .init(redirectConfiguration: .disallow))
+    private static let client: HTTPClient = {
+        var configuration = HTTPClient.Configuration(redirectConfiguration: .disallow)
+        // Request tracing is not used by the SDK. Skip withSpan/TaskLocal entirely,
+        // including Swift's affected macOS 14 backdeployment path.
+        configuration.tracing.tracer = nil
+        return HTTPClient(eventLoopGroupProvider: .singleton, configuration: configuration)
+    }()
     public init() {}
     public func get(url: URL, accept: String = "application/json") async throws -> Data {
         try await request(url: url, body: nil, accept: accept)

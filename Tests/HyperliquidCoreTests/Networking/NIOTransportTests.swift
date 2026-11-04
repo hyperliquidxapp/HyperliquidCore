@@ -1,3 +1,4 @@
+import AsyncHTTPClient
 import Foundation
 import NIOCore
 import NIOHTTP1
@@ -96,6 +97,7 @@ private final class HTTPFixtureHandler: ChannelInboundHandler {
         case .end:
             guard let head else { return }
             journal.append(head.uri, Data(body.readableBytesView))
+            if head.uri == "/hold" { return }
             let status: HTTPResponseStatus =
                 head.uri == "/redirect" ? .found : head.uri == "/fail" ? .serviceUnavailable : .ok
             let bytes: ByteBuffer =
@@ -279,4 +281,57 @@ async throws {
         Issue.record("Expected cancelled receive")
     } catch {}
     try await connection.channel.closeFuture.get()
+}
+
+@Test func nioHTTPHandlesConcurrentRefreshesAndCancelsAnInFlightRequest() async throws {
+    let journal = HTTPFixtureJournal()
+    let server = try await ServerBootstrap(group: MultiThreadedEventLoopGroup.singleton)
+        .childChannelInitializer { channel in
+            channel.eventLoop.makeCompletedFuture {
+                try channel.pipeline.syncOperations.configureHTTPServerPipeline()
+                try channel.pipeline.syncOperations.addHandler(HTTPFixtureHandler(journal: journal))
+            }
+        }.bind(host: "127.0.0.1", port: 0).get()
+    defer { server.close(promise: nil) }
+    let port = try #require(server.localAddress?.port)
+    let transport = NIOHTTPTransport()
+    try await withThrowingTaskGroup(of: Void.self) { group in
+        for index in 0..<32 {
+            group.addTask {
+                let body = Data("{\"refresh\":\(index)}".utf8)
+                let bytes = try await transport.post(
+                    url: URL(string: "http://127.0.0.1:\(port)/refresh/\(index)")!, body: body)
+                #expect(bytes == body)
+            }
+        }
+        try await group.waitForAll()
+    }
+    #expect(journal.snapshot.count == 32)
+    let pending = Task {
+        try await transport.get(url: URL(string: "http://127.0.0.1:\(port)/hold")!)
+    }
+    let deadline = Task {
+        do { try await Task.sleep(for: .seconds(5)) } catch { return }
+        journal.finish()
+        pending.cancel()
+    }
+    defer { deadline.cancel(); pending.cancel() }
+    var events = journal.events.makeAsyncIterator()
+    var observedRequest = false
+    while let path = await events.next() {
+        if path == "/hold" { observedRequest = true; break }
+    }
+    try #require(observedRequest)
+    let start = ContinuousClock.now
+    pending.cancel()
+    do {
+        _ = try await pending.value
+        Issue.record("Expected the in-flight HTTP request to be cancelled")
+    } catch {
+        #expect(error is CancellationError || (error as? HTTPClientError) == .cancelled)
+    }
+    #expect(start.duration(to: .now) < .seconds(5))
+    #expect(journal.snapshot.filter { $0.0 == "/hold" }.count == 1)
+    let quote = try await transport.get(url: URL(string: "http://127.0.0.1:\(port)/quote")!)
+    #expect(quote == Data("read-only quote".utf8))
 }
