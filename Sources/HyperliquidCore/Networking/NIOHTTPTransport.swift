@@ -27,6 +27,7 @@ public struct NIOHTTPTransport: Sendable {
             throw APIError.malformed("API requests require HTTPS")
         }
         try Task.checkCancellation()
+        try NIOTransportRuntime.validate()
         var request = HTTPClientRequest(url: url.absoluteString)
         request.method = body == nil ? .GET : .POST
         request.headers.add(name: "Content-Type", value: "application/json")

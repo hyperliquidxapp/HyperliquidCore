@@ -52,6 +52,8 @@ swift test
 
 The default suite uses deterministic fixtures and loopback networking. Public network probes are opt-in with `HL_LIVE_PROBE=1`; account probes additionally require `HL_TESTNET_ACCOUNT`. CCTP deployment probes use `HL_CCTP_NETWORK_PROBE=1`. Do not use real private keys in test fixtures.
 
+`NIOTransportRuntime.validate()` checks the erased HTTP/WebSocket decoder conformances without network access. Transports check its cached result before opening pipelines. NIO is pinned to 2.103.0 to avoid the older-runtime codec regression in [NIO #3764](https://github.com/apple/swift-nio/issues/3764); gRPC NIO transport 2.10.0 preserves that dependency compatibility. A test on a newer OS does not replace validation on macOS 14.
+
 Fixture JSON under `docs/verification/` is required by the signing and funding tests. Keep it when copying or checking out this package.
 
 ## License

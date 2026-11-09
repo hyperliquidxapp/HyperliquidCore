@@ -181,6 +181,7 @@ public struct NIOWebSocketConnection: Sendable {
     private static let tls = Result { try NIOSSLContext(configuration: .makeClientConfiguration()) }
 
     public static func open(url: URL, headers: [String: String] = [:]) async throws -> Self {
+        try NIOTransportRuntime.validate()
         let attempt = WebSocketConnectionAttempt()
         return try await withTaskCancellationHandler {
             do { return try await open(url: url, headers: headers, attempt: attempt) } catch {

@@ -9,11 +9,14 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/21-DOT-DEV/swift-secp256k1.git", exact: "0.23.2"),
-        .package(url: "https://github.com/apple/swift-nio.git", exact: "2.104.0"),
+        // 2.104.0's noncopyable codec conformances fail on the macOS 14 runtime.
+        // https://github.com/apple/swift-nio/issues/3764
+        .package(url: "https://github.com/apple/swift-nio.git", exact: "2.103.0"),
         .package(url: "https://github.com/apple/swift-nio-ssl.git", exact: "2.37.5"),
         .package(url: "https://github.com/swift-server/async-http-client.git", exact: "1.36.2"),
         .package(url: "https://github.com/grpc/grpc-swift-2.git", exact: "2.4.4"),
-        .package(url: "https://github.com/grpc/grpc-swift-nio-transport.git", exact: "2.11.0"),
+        // 2.11.0 raises its NIO minimum to the affected 2.104.0 release.
+        .package(url: "https://github.com/grpc/grpc-swift-nio-transport.git", exact: "2.10.0"),
         .package(url: "https://github.com/grpc/grpc-swift-protobuf.git", exact: "2.5.0"),
         .package(url: "https://github.com/apple/swift-protobuf.git", exact: "1.39.0")
     ],
