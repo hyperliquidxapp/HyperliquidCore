@@ -8,6 +8,13 @@ import Testing
 
 @testable import HyperliquidCore
 
+@Test(.timeLimit(.minutes(1))) func nioHTTPReleaseRuntimeProbeExercisesConcurrentRequestsCancellationAndRecovery()
+async throws {
+    let report = try await NIOHTTPRuntimeProbe.run()
+    #expect(report.schemaVersion == 1 && report.passed && report.scope == "loopback")
+    #expect(report.completedRequests == 9 && report.cancelledRequests == 1)
+}
+
 @Test func nioWebSocketAssemblesFragmentsAcrossControlFramesAndPreservesBinaryMessages() throws {
     var assembler = NIOWebSocketMessageAssembler(maximumBytes: 16)
     let first = try assembler.accept(
@@ -98,6 +105,23 @@ private final class HTTPFixtureHandler: ChannelInboundHandler {
             guard let head else { return }
             journal.append(head.uri, Data(body.readableBytesView))
             if head.uri == "/hold" { return }
+            if head.uri == "/oversized-head" {
+                context.writeAndFlush(
+                    wrapOutboundOut(.head(.init(
+                        version: .http1_1, status: .ok,
+                        headers: HTTPHeaders([("Content-Length", String(16 * 1024 * 1024 + 1))])))), promise: nil)
+                return
+            }
+            if head.uri == "/oversized-chunked" {
+                context.write(
+                    wrapOutboundOut(.head(.init(
+                        version: .http1_1, status: .ok,
+                        headers: HTTPHeaders([("Transfer-Encoding", "chunked")])))), promise: nil)
+                let part = ByteBuffer(repeating: 65, count: 1024 * 1024)
+                for _ in 0..<17 { context.write(wrapOutboundOut(.body(.byteBuffer(part))), promise: nil) }
+                context.writeAndFlush(wrapOutboundOut(.end(nil)), promise: nil)
+                return
+            }
             let status: HTTPResponseStatus =
                 head.uri == "/redirect" ? .found : head.uri == "/fail" ? .serviceUnavailable : .ok
             let bytes: ByteBuffer =
@@ -166,6 +190,31 @@ async throws {
         _ = try await transport.post(url: URL(string: "http://example.com/info")!, body: body)
         Issue.record("Expected insecure endpoint rejection")
     } catch { #expect(error.localizedDescription.contains("HTTPS")) }
+}
+
+@Test func nioHTTPBoundsAdvertisedAndStreamedResponsesWithoutRetrying() async throws {
+    let journal = HTTPFixtureJournal()
+    let server = try await ServerBootstrap(group: MultiThreadedEventLoopGroup.singleton)
+        .childChannelInitializer { channel in
+            channel.eventLoop.makeCompletedFuture {
+                try channel.pipeline.syncOperations.configureHTTPServerPipeline()
+                try channel.pipeline.syncOperations.addHandler(HTTPFixtureHandler(journal: journal))
+            }
+        }.bind(host: "127.0.0.1", port: 0).get()
+    defer { server.close(promise: nil) }
+    let port = try #require(server.localAddress?.port)
+    let transport = NIOHTTPTransport()
+    for path in ["oversized-head", "oversized-chunked"] {
+        do {
+            _ = try await transport.get(url: URL(string: "http://127.0.0.1:\(port)/\(path)")!)
+            Issue.record("Expected a bounded response failure")
+        } catch {
+            #expect(error is ResponseAccumulator.ResponseTooBigError)
+        }
+    }
+    let empty = try await transport.post(url: URL(string: "http://127.0.0.1:\(port)/empty")!, body: Data())
+    #expect(empty.isEmpty)
+    #expect(journal.snapshot.map { $0.0 } == ["/oversized-head", "/oversized-chunked", "/empty"])
 }
 
 @Test func nioWebSocketBoundsPendingBytesAndReleasesConsumedCapacity() {

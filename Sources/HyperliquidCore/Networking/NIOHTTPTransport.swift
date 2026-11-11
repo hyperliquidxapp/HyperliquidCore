@@ -1,7 +1,7 @@
 import AsyncHTTPClient
 import Foundation
 import NIOCore
-import NIOFoundationEssentialsCompat
+import NIOHTTP1
 
 /// One process-wide connection pool; requests never follow a redirect or retry
 /// an exchange POST in application code. TLS validation remains enabled.
@@ -28,14 +28,26 @@ public struct NIOHTTPTransport: Sendable {
         }
         try Task.checkCancellation()
         try NIOTransportRuntime.validate()
-        var request = HTTPClientRequest(url: url.absoluteString)
-        request.method = body == nil ? .GET : .POST
-        request.headers.add(name: "Content-Type", value: "application/json")
-        request.headers.add(name: "Accept", value: accept)
-        if let body { request.body = .bytes(ByteBuffer(bytes: body)) }
-        let response = try await Self.client.execute(request, timeout: .seconds(20))
-        let buffer = try await response.body.collect(upTo: 16 * 1024 * 1024)
-        let data = Data(buffer.readableBytesView)
+        let request = try HTTPClient.Request(
+            url: url.absoluteString, method: body == nil ? .GET : .POST,
+            headers: HTTPHeaders([("Content-Type", "application/json"), ("Accept", accept)]),
+            body: body.map { .byteBuffer(ByteBuffer(bytes: $0)) })
+        try Task.checkCancellation()
+        let operation = Self.client.execute(
+            request: request,
+            delegate: ResponseAccumulator(request: request, maxBodySize: 16 * 1024 * 1024),
+            deadline: .now() + .seconds(20))
+        // The callback API avoids AHC's executeCancellable async frame, which
+        // aborts in the supplied macOS 14 report. A NIO future completes once;
+        // this gives the unsafe continuation exactly one completion as well.
+        let response = try await withTaskCancellationHandler {
+            try await withUnsafeThrowingContinuation { (continuation: UnsafeContinuation<HTTPClient.Response, Error>) in
+                operation.futureResult.whenComplete { continuation.resume(with: $0) }
+            }
+        } onCancel: {
+            operation.cancel()
+        }
+        let data = response.body.map { Data($0.readableBytesView) } ?? Data()
         try Task.checkCancellation()
         guard (200..<300).contains(Int(response.status.code)) else {
             // Preserve UTF-8 replacement decoding; encoded JSON is UTF-8 and error text may be invalid.
