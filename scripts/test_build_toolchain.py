@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import os
 from pathlib import Path
 import unittest
 from unittest.mock import patch
@@ -41,6 +42,26 @@ class BuildToolchainTests(unittest.TestCase):
     def test_different_sdk_build_in_same_version_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "macOSSDKBuild"):
             self.validate(macOSSDKBuild="26A000")
+
+    def test_xcode_metal_and_default_toolchain_combination_is_accepted(self):
+        developer = "/Applications/Xcode.app/Contents/Developer"
+        swift = developer + "/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        with patch.dict(os.environ, {"TOOLCHAINS": "com.apple.dt.toolchain.Metal.32023.921.5 com.apple.dt.toolchain.XcodeDefault", "SWIFT_EXEC": swift}):
+            with patch.object(TOOLCHAIN, "output", return_value=swift):
+                TOOLCHAIN.validate_selection(developer)
+
+    def test_swift_selected_from_a_different_toolchain_is_rejected(self):
+        with patch.object(TOOLCHAIN, "output", return_value="/Library/Developer/Toolchains/custom/usr/bin/swiftc"):
+            with self.assertRaisesRegex(ValueError, "selected Swift compiler"):
+                TOOLCHAIN.validate_selection("/Applications/Xcode.app/Contents/Developer")
+
+    def test_xcode_swift_exec_override_is_rejected(self):
+        developer = "/Applications/Xcode.app/Contents/Developer"
+        swift = developer + "/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        with patch.dict(os.environ, {"SWIFT_EXEC": "/tmp/custom-swiftc"}):
+            with patch.object(TOOLCHAIN, "output", return_value=swift):
+                with self.assertRaisesRegex(ValueError, "SWIFT_EXEC"):
+                    TOOLCHAIN.validate_selection(developer)
 
 
 if __name__ == "__main__":

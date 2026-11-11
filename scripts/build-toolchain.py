@@ -33,6 +33,16 @@ def validate(expected):
     return actual
 
 
+def validate_selection(developer):
+    default_swift = (Path(developer) / "Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc").resolve()
+    selected_swift = Path(output("xcrun", "--find", "swiftc")).resolve()
+    if selected_swift != default_swift:
+        raise ValueError("The selected Swift compiler must belong to the pinned Xcode default toolchain.")
+    override = os.environ.get("SWIFT_EXEC")
+    if override and Path(override).resolve() != default_swift:
+        raise ValueError("SWIFT_EXEC must use the pinned Xcode default Swift compiler.")
+
+
 def main():
     root = Path(__file__).resolve().parent.parent
     expected = json.loads((root / "build-toolchain.json").read_text())
@@ -44,8 +54,9 @@ def main():
             str(Path(developer) / "Toolchains/XcodeDefault.xctoolchain/usr/bin"),
             str(Path(developer) / "usr/bin"), os.environ.get("PATH", ""),
         ])
-        if os.environ.get("TOOLCHAINS") not in (None, "", "com.apple.dt.toolchain.XcodeDefault"):
-            raise ValueError("Custom TOOLCHAINS overrides are incompatible with the pinned build.")
+        # Xcode includes its Metal toolchain alongside XcodeDefault in TOOLCHAINS.
+        # Check the actual selected Swift executable, not the toolchain list.
+        validate_selection(developer)
         if os.environ.get("SDKROOT") and Path(os.environ["SDKROOT"]).resolve() != Path(output("xcrun", "--sdk", "macosx", "--show-sdk-path")).resolve():
             raise ValueError("SDKROOT must match the pinned Xcode macOS SDK.")
         actual = validate(expected)
